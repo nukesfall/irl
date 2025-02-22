@@ -24,14 +24,7 @@
       min-height: 100vh;
       text-align: center;
       justify-content: center;
-    }
-
-    /* Main Wrapper to Push Footer to Bottom */
-    .wrapper {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      width: 100%;
+      padding-bottom: 60px; /* Prevents content from overlapping footer */
     }
 
     /* Main Content */
@@ -84,14 +77,18 @@
       transform: scale(1.05);
     }
 
-    /* Footer - Sticks to Bottom */
+    /* Footer - Always Visible at Bottom */
     footer {
       font-size: 0.875rem;
       color: #aaa;
-      padding: 20px 0;
+      padding: 15px 0;
       text-align: center;
       width: 100%;
-      margin-top: auto; /* Pushes footer to bottom */
+      position: fixed; /* Fixes the footer at the bottom */
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8); /* Slight transparency */
+      backdrop-filter: blur(5px); /* Smooth blur effect */
     }
 
     footer a {
@@ -120,60 +117,16 @@
 </head>
 <body>
 
-  <div class="wrapper">
-    <div class="content">
-      <div class="logo-container">
-        <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
-      </div>
-      <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
+  <div class="content">
+    <div class="logo-container">
+      <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
     </div>
-
-    <footer>
-      <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
-    </footer>
+    <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
   </div>
 
-  <!-- Hidden YouTube Player -->
-  <div id="youtube-player"></div>
-
-  <script>
-    let player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
-        videoId: 'E3Im5raB0b0',
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          showinfo: 0,
-          modestbranding: 1,
-          loop: 1,
-          fs: 0,
-          rel: 0,
-          playlist: 'E3Im5raB0b0',
-          mute: 0
-        },
-        events: {
-          onReady: function (event) {
-            event.target.setVolume(50);
-            event.target.playVideo();
-          },
-          onStateChange: function (event) {
-            if (event.data === YT.PlayerState.ENDED) {
-              event.target.playVideo();
-            }
-          }
-        }
-      });
-    }
-
-    // Load YouTube API
-    let tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    let firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  </script>
+  <footer>
+    <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
+  </footer>
 
 </body>
 </html>
