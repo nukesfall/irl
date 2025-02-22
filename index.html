@@ -50,8 +50,8 @@
       width: 188px;
       height: auto;
       opacity: 0;
-      animation: fadeIn 3.5s 1s forwards, glowShift 8s infinite linear alternate;
-      filter: brightness(1) drop-shadow(0px 0px 10px hsl(0, 100%, 50%));
+      animation: fadeIn 3.5s 1s forwards;
+      filter: brightness(1) drop-shadow(0px 0px 15px rgba(0, 100, 255, 0.8)); /* Initial White-Blue Glow */
       transition: filter 0.1s ease-out;
     }
 
@@ -127,6 +127,21 @@
   <footer>
     <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    const logo = document.getElementById('logo');
+
+    function updateGlowOnScroll() {
+      const scrollPosition = window.scrollY;
+      const intensity = Math.min(10 + scrollPosition * 0.05, 25); // Glow size changes with scroll
+      const opacity = Math.min(0.6 + scrollPosition * 0.001, 1); // Slight increase in intensity
+      const colorShift = Math.min(scrollPosition * 0.2, 150); // Shifts towards white
+
+      logo.style.filter = `brightness(1) drop-shadow(0px 0px ${intensity}px rgba(${colorShift}, 100, 255, ${opacity}))`;
+    }
+
+    window.addEventListener('scroll', updateGlowOnScroll);
+  </script>
 
 </body>
 </html>
