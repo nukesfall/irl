@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In Real Life</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Layout */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      justify-content: center;
+    }
+
+    /* Main Content */
+    .content {
+      max-width: 900px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Logo Styling */
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container img {
+      width: 188px; /* 25% Larger */
+      height: auto;
+      opacity: 0;
+      animation: fadeIn 3.5s 1s forwards;
+      filter: brightness(1) drop-shadow(0px 0px 8px rgba(255, 0, 0, 0.7)); /* Glow closer to logo */
+      transition: filter 0.1s ease-out;
+    }
+
+    /* Contact Button */
+    .contact-button {
+      display: inline-block;
+      padding: 12px 30px;
+      font-size: 1rem;
+      color: #fff;
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 3.5s 1.5s forwards;
+      margin-top: 40px;
+    }
+
+    .contact-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      font-size: 0.875rem;
+      color: #aaa;
+      padding: 20px 0;
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      bottom: 20px;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 8vw;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <div class="logo-container">
+      <img id="logo" src="file:///Users/nukesfall/Desktop/x/web/irl/logo.png" alt="IRL Logo">
+    </div>
+    <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
+  </div>
+
+  <footer>
+    <p>© 2025 <a href="index.html">In Real Life</a>. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const logo = document.getElementById('logo');
+
+    function updateLighting(event) {
+      const { clientX, clientY, touches } = event;
+      let x, y;
+
+      if (touches) {
+        x = touches[0].clientX;
+        y = touches[0].clientY;
+      } else {
+        x = clientX;
+        y = clientY;
+      }
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      const hue = (x / width) * 360; // Color hue based on X position
+      const brightness = 1 + (y / height) * 0.4; // Slightly boosted brightness
+      const glowSize = 6 + (y / height) * 10; // Keep glow tight around the logo
+      const glowOpacity = 0.5 + (y / height) * 0.3; // Moderate glow intensity
+
+      // Apply a smooth, closer glow effect
+      logo.style.filter = `brightness(${brightness}) drop-shadow(0px 0px ${glowSize}px hsl(${hue}, 100%, 50%))`;
+    }
+
+    document.addEventListener('mousemove', updateLighting);
+    document.addEventListener('touchmove', updateLighting);
+  </script>
+
+</body>
+</html>
