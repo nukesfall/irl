@@ -26,13 +26,12 @@
       justify-content: center;
     }
 
-    /* Hidden YouTube Player */
-    #youtube-player {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
+    /* Main Wrapper to Push Footer to Bottom */
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: 100%;
     }
 
     /* Main Content */
@@ -43,6 +42,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      flex-grow: 1;
     }
 
     /* Logo Styling */
@@ -84,15 +84,14 @@
       transform: scale(1.05);
     }
 
-    /* Footer */
+    /* Footer - Sticks to Bottom */
     footer {
       font-size: 0.875rem;
       color: #aaa;
       padding: 20px 0;
       text-align: center;
       width: 100%;
-      position: absolute;
-      bottom: 20px;
+      margin-top: auto; /* Pushes footer to bottom */
     }
 
     footer a {
@@ -110,20 +109,29 @@
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .content {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <div class="content">
-    <div class="logo-container">
-      <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
+  <div class="wrapper">
+    <div class="content">
+      <div class="logo-container">
+        <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
+      </div>
+      <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
     </div>
-    <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
-  </div>
 
-  <footer>
-    <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
-  </footer>
+    <footer>
+      <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
+    </footer>
+  </div>
 
   <!-- Hidden YouTube Player -->
   <div id="youtube-player"></div>
@@ -134,26 +142,26 @@
       player = new YT.Player('youtube-player', {
         height: '0',
         width: '0',
-        videoId: 'E3Im5raB0b0',  // Your YouTube video ID
+        videoId: 'E3Im5raB0b0',
         playerVars: {
-          autoplay: 1,       // Auto-play the video
-          controls: 0,       // Hide controls
-          showinfo: 0,       // Hide video info
-          modestbranding: 1, // Minimal branding
-          loop: 1,           // Loop the video
-          fs: 0,             // Disable fullscreen button
-          rel: 0,            // Prevent showing related videos at the end
-          playlist: 'E3Im5raB0b0', // Required for looping
-          mute: 0            // Play with sound
+          autoplay: 1,
+          controls: 0,
+          showinfo: 0,
+          modestbranding: 1,
+          loop: 1,
+          fs: 0,
+          rel: 0,
+          playlist: 'E3Im5raB0b0',
+          mute: 0
         },
         events: {
           onReady: function (event) {
-            event.target.setVolume(50); // Set volume (0-100)
+            event.target.setVolume(50);
             event.target.playVideo();
           },
           onStateChange: function (event) {
             if (event.data === YT.PlayerState.ENDED) {
-              event.target.playVideo(); // Loop the video
+              event.target.playVideo();
             }
           }
         }
