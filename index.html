@@ -26,6 +26,15 @@
       justify-content: center;
     }
 
+    /* Hidden YouTube Player */
+    #youtube-player {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* Main Content */
     .content {
       max-width: 900px;
@@ -51,15 +60,6 @@
       animation: fadeIn 3.5s 1s forwards, glowShift 8s infinite linear alternate;
       filter: brightness(1) drop-shadow(0px 0px 10px hsl(0, 100%, 50%));
       transition: filter 0.1s ease-out;
-    }
-
-    /* Keyframe animation for automatic glow color cycling */
-    @keyframes glowShift {
-      0% { filter: brightness(1) drop-shadow(0px 0px 10px hsl(0, 100%, 50%)); }   
-      25% { filter: brightness(1) drop-shadow(0px 0px 12px hsl(90, 100%, 50%)); }  
-      50% { filter: brightness(1) drop-shadow(0px 0px 14px hsl(180, 100%, 50%)); } 
-      75% { filter: brightness(1) drop-shadow(0px 0px 12px hsl(270, 100%, 50%)); } 
-      100% { filter: brightness(1) drop-shadow(0px 0px 10px hsl(360, 100%, 50%)); } 
     }
 
     /* Contact Button */
@@ -110,13 +110,6 @@
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 8vw;
-      }
-    }
   </style>
 </head>
 <body>
@@ -132,53 +125,46 @@
     <p>© 2025 <a href="https://github.com/nukesfall/irl" target="_blank">In Real Life</a>. All Rights Reserved.</p>
   </footer>
 
+  <!-- Hidden YouTube Player -->
+  <div id="youtube-player"></div>
+
   <script>
-    const logo = document.getElementById('logo');
-
-    function updateLighting(event) {
-      const { clientX, clientY, touches } = event;
-      let x, y;
-
-      if (touches) {
-        x = touches[0].clientX;
-        y = touches[0].clientY;
-      } else {
-        x = clientX;
-        y = clientY;
-      }
-
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      const hue = (x / width) * 360;
-      const brightness = 1 + (y / height) * 0.4;
-      const glowSize = 6 + (y / height) * 10;
-      const glowOpacity = 0.5 + (y / height) * 0.3;
-
-      logo.style.filter = `brightness(${brightness}) drop-shadow(0px 0px ${glowSize}px hsl(${hue}, 100%, 50%))`;
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'E3Im5raB0b0',  // Your YouTube video ID
+        playerVars: {
+          autoplay: 1,       // Auto-play the video
+          controls: 0,       // Hide controls
+          showinfo: 0,       // Hide video info
+          modestbranding: 1, // Minimal branding
+          loop: 1,           // Loop the video
+          fs: 0,             // Disable fullscreen button
+          rel: 0,            // Prevent showing related videos at the end
+          playlist: 'E3Im5raB0b0', // Required for looping
+          mute: 0            // Play with sound
+        },
+        events: {
+          onReady: function (event) {
+            event.target.setVolume(50); // Set volume (0-100)
+            event.target.playVideo();
+          },
+          onStateChange: function (event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              event.target.playVideo(); // Loop the video
+            }
+          }
+        }
+      });
     }
 
-    function updateTilt(event) {
-      let tiltX = event.gamma; // Side tilt
-      let tiltY = event.beta;  // Forward/backward tilt
-
-      if (tiltX !== null && tiltY !== null) {
-        // Normalize tilt values (-90 to 90 → 0 to 360 hue range)
-        let hue = ((tiltX + 90) / 180) * 360; 
-        let brightness = 1 + (tiltY / 180) * 0.5;
-        let glowSize = 8 + (tiltY / 180) * 12;
-
-        logo.style.filter = `brightness(${brightness}) drop-shadow(0px 0px ${glowSize}px hsl(${hue}, 100%, 50%))`;
-      }
-    }
-
-    document.addEventListener('mousemove', updateLighting);
-    document.addEventListener('touchmove', updateLighting);
-    
-    // Detect device orientation and update glow color
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientation", updateTilt, true);
-    }
+    // Load YouTube API
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   </script>
 
 </body>
