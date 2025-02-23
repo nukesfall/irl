@@ -13,48 +13,22 @@
       box-sizing: border-box;
     }
 
-    /* Body Layout */
+    /* Body Layout with Dynamic Gradient */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #000;
+      background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
       color: #fff;
       line-height: 1.6;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh; /* Removed justify-content to allow scrolling */
+      min-height: 100vh;
       padding-bottom: 60px;
-      overflow-y: auto; /* Enable vertical scrolling */
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       position: relative;
-    }
-
-    /* Video Background */
-    .video-background {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1;
-      overflow: hidden;
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-    }
-
-    .video-background iframe {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      min-width: 177.78vh; /* 16:9 aspect ratio based on height */
-      min-height: 56.25vw; /* 9:16 aspect ratio based on width */
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      filter: brightness(50%);
-      -webkit-filter: brightness(50%);
-      pointer-events: none;
+      animation: gradientShift 6s infinite linear; /* Matches logo rotation */
+      -webkit-animation: gradientShift 6s infinite linear;
     }
 
     /* Main Content */
@@ -107,24 +81,23 @@
       z-index: 1;
     }
 
-    /* Glow Effect - Bigger, Brighter, Green */
-    .logo-wrapper::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 470px;
-      height: auto;
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      background: url('https://nukesfall.github.io/irl/logo.png') no-repeat center;
-      background-size: contain;
-      filter: blur(20px) drop-shadow(0 0 25px rgba(0, 255, 0, 0.8));
-      opacity: 0.8;
-      z-index: 0;
-      pointer-events: none;
-      backface-visibility: visible;
-      -webkit-backface-visibility: visible;
+    /* Gradient Animation Synced with Logo */
+    @keyframes gradientShift {
+      0% { 
+        background: radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
+      }
+      25% { 
+        background: radial-gradient(circle at 60% 40%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
+      }
+      50% { 
+        background: radial-gradient(circle at 60% 60%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
+      }
+      75% { 
+        background: radial-gradient(circle at 40% 60%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
+      }
+      100% { 
+        background: radial-gradient(circle at 40% 40%, rgba(20, 20, 20, 1), rgba(0, 0, 0, 1));
+      }
     }
 
     /* Full 360° Rotation with Perspective */
@@ -197,23 +170,10 @@
       .logo-container img {
         width: 187.5px;
       }
-      .logo-wrapper::after {
-        width: 375px;
-      }
     }
   </style>
 </head>
 <body>
-
-  <div class="video-background">
-    <iframe 
-      id="youtube-video"
-      src="https://www.youtube.com/embed/-5nFPNraHQ4?autoplay=1&mute=1&loop=1&playlist=-5nFPNraHQ4&controls=0&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&start=45&vq=medium" 
-      frameborder="0" 
-      allow="autoplay; encrypted-media" 
-      allowfullscreen>
-    </iframe>
-  </div>
 
   <div class="content">
     <div class="logo-container">
