@@ -97,12 +97,9 @@
     /* Text Container */
     .text-container {
       position: relative;
-      height: 1.5em;
-      width: 100%; /* Ensure it takes full width for centering */
-      margin-top: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 1.5em; /* Fixed height for single line */
+      width: 100%;
+      margin-top: 20px; /* Increased spacing from logo (was 8px) */
     }
 
     .logo-text {
@@ -110,36 +107,38 @@
       color: #ccc;
       letter-spacing: 1px;
       position: absolute;
-      left: 50%; /* Center horizontally */
-      transform: translateX(-50%); /* Offset by half its width */
+      top: 0; /* Align to top of container to prevent stacking */
+      left: 50%;
+      transform: translateX(-50%);
       -webkit-transform: translateX(-50%);
       opacity: 0;
+      margin: 0; /* Remove any default margins */
     }
 
     .human-training {
-      animation: textCycle1 8s infinite;
-      -webkit-animation: textCycle1 8s infinite;
+      animation: textCycle1 8s infinite ease-in-out;
+      -webkit-animation: textCycle1 8s infinite ease-in-out;
     }
 
     .in-real-life {
-      animation: textCycle2 8s infinite;
-      -webkit-animation: textCycle2 8s infinite;
+      animation: textCycle2 8s infinite ease-in-out;
+      -webkit-animation: textCycle2 8s infinite ease-in-out;
     }
 
-    /* Text Animations */
+    /* Text Animations with Longer Fades */
     @keyframes textCycle1 {
       0% { opacity: 0; }
-      10% { opacity: 1; }
-      40% { opacity: 1; }
-      50% { opacity: 0; }
+      15% { opacity: 1; }
+      35% { opacity: 1; }
+      55% { opacity: 0; }
       100% { opacity: 0; }
     }
 
     @keyframes textCycle2 {
       0% { opacity: 0; }
-      50% { opacity: 0; }
-      60% { opacity: 1; }
-      90% { opacity: 1; }
+      45% { opacity: 0; }
+      65% { opacity: 1; }
+      85% { opacity: 1; }
       100% { opacity: 0; }
     }
 
@@ -203,6 +202,9 @@
       }
       .logo-wrapper::after {
         width: 150px;
+      }
+      .text-container {
+        margin-top: 15px; /* Slightly less spacing on mobile */
       }
     }
   </style>
