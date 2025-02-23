@@ -48,8 +48,8 @@
       left: 50%;
       width: 100%;
       height: 100%;
-      min-width: 177.78vh; /* 16:9 aspect ratio based on height */
-      min-height: 56.25vw; /* 9:16 aspect ratio based on width */
+      min-width: 177.78vh;
+      min-height: 56.25vw;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       object-fit: cover;
@@ -186,10 +186,10 @@
 <body>
 
   <div class="video-background">
-    <video autoplay muted loop playsinline>
-      <source src="xyz.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline id="background-video">
+      <source src="./xyz.MP4" type="video/mp4">
     </video>
-    <div class="video-fallback">Video failed to load. Please check if "xyz.mp4" is in the main folder.</div>
+    <div class="video-fallback">Video failed to load. Please check if "xyz.MP4" is in the main folder.</div>
   </div>
 
   <div class="content">
@@ -211,13 +211,18 @@
       logo.style.opacity = 1;
     });
 
-    // Check if video loads
-    const video = document.querySelector('.video-background video');
+    // Video debugging
+    const video = document.getElementById('background-video');
     video.addEventListener('loadeddata', () => {
       console.log('Video loaded successfully');
+      document.querySelector('.video-fallback').style.display = 'none';
     });
     video.addEventListener('error', (e) => {
-      console.error('Video failed to load:', e);
+      console.error('Video error:', e);
+      console.log('Source attempted:', video.currentSrc);
+    });
+    video.addEventListener('play', () => {
+      console.log('Video is playing');
     });
   </script>
 
