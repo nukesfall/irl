@@ -24,9 +24,9 @@
       align-items: center;
       min-height: 100vh;
       text-align: center;
-      justify-content: center;
       padding-bottom: 60px;
-      overflow: hidden;
+      overflow-y: auto; /* Changed from overflow: hidden to allow scrolling */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
 
     /* Main Content */
@@ -49,6 +49,7 @@
       flex-direction: column;
       align-items: center;
       perspective: 1000px; /* Adds 3D depth */
+      transform-style: preserve-3d; /* Moved to container for better mobile support */
     }
 
     .logo-container img {
@@ -56,8 +57,9 @@
       height: auto;
       opacity: 0;
       animation: fadeIn 2s forwards, rotate3D 8s infinite linear;
-      filter: drop-shadow(0px 0px 5px rgba(0, 0, 255, 0.3)); /* Dimmer Blue Glow */
-      transform-style: preserve-3d; /* Enables 3D transforms */
+      filter: drop-shadow(0px 0px 5px rgba(0, 0, 255, 0.3));
+      -webkit-animation: fadeIn 2s forwards, rotate3D 8s infinite linear; /* Added for mobile */
+      backface-visibility: hidden; /* Prevents flickering on some devices */
     }
 
     /* Small Text Under Logo */
@@ -68,17 +70,20 @@
       letter-spacing: 1px;
       opacity: 0;
       animation: fadeIn 2s 1s forwards;
+      -webkit-animation: fadeIn 2s 1s forwards; /* Added for mobile */
     }
 
     /* 3D Rotation Animation */
     @keyframes rotate3D {
       0% { 
         opacity: 1;
-        transform: rotateY(0deg); 
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg); /* Added for mobile */
       }
       100% { 
         opacity: 1;
-        transform: rotateY(360deg); 
+        transform: rotateY(360deg);
+        -webkit-transform: rotateY(360deg); /* Added for mobile */
       }
     }
 
@@ -112,11 +117,21 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive Design */
+    /* Improved Mobile Support */
     @media (max-width: 768px) {
       .content {
         padding: 15px;
       }
+      .logo-container img {
+        width: 150px; /* Slightly smaller on mobile */
+      }
+    }
+
+    /* Ensure hardware acceleration */
+    .logo-container img {
+      -webkit-transform: translateZ(0); /* Force hardware acceleration */
+      transform: translateZ(0);
+      will-change: transform; /* Hint to browser for optimization */
     }
   </style>
 </head>
