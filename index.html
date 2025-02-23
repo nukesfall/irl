@@ -54,8 +54,8 @@
 
     .logo-wrapper {
       position: relative;
-      animation: rotate3D 8s infinite linear;
-      -webkit-animation: rotate3D 8s infinite linear;
+      animation: rotate3D 6s infinite linear; /* Changed from 8s to 6s */
+      -webkit-animation: rotate3D 6s infinite linear;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -85,14 +85,14 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 470px; /* Increased from 352.5px (about 100% bigger than logo’s 235px) */
+      width: 470px; /* 100% bigger than logo’s 235px */
       height: auto;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       background: url('https://nukesfall.github.io/irl/logo.png') no-repeat center;
       background-size: contain;
-      filter: blur(20px) drop-shadow(0 0 25px rgba(0, 255, 0, 0.8)); /* Green, bigger blur/spread */
-      opacity: 0.8; /* Brighter, up from 0.5 */
+      filter: blur(20px) drop-shadow(0 0 25px rgba(0, 255, 0, 0.8));
+      opacity: 0.8;
       z-index: 0;
       pointer-events: none;
       backface-visibility: visible;
@@ -170,7 +170,7 @@
         width: 187.5px; /* 25% bigger than original 150px */
       }
       .logo-wrapper::after {
-        width: 375px; /* Increased from 281.25px (about 100% bigger than logo’s 187.5px) */
+        width: 375px; /* 100% bigger than logo’s 187.5px */
       }
     }
   </style>
