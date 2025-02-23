@@ -25,8 +25,8 @@
       min-height: 100vh;
       text-align: center;
       padding-bottom: 60px;
-      overflow-y: auto; /* Changed from overflow: hidden to allow scrolling */
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     /* Main Content */
@@ -48,18 +48,27 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      perspective: 1000px; /* Adds 3D depth */
-      transform-style: preserve-3d; /* Moved to container for better mobile support */
+      perspective: 1000px;
+      transform-style: preserve-3d;
     }
 
     .logo-container img {
       width: 188px;
       height: auto;
       opacity: 0;
-      animation: fadeIn 2s forwards, rotate3D 8s infinite linear;
+      animation: fadeIn 2s ease-out forwards; /* Only fade-in, separate from rotation */
+      -webkit-animation: fadeIn 2s ease-out forwards;
       filter: drop-shadow(0px 0px 5px rgba(0, 0, 255, 0.3));
-      -webkit-animation: fadeIn 2s forwards, rotate3D 8s infinite linear; /* Added for mobile */
-      backface-visibility: hidden; /* Prevents flickering on some devices */
+      backface-visibility: hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* Add a wrapper for rotation */
+    .logo-wrapper {
+      animation: rotate3D 8s infinite linear;
+      -webkit-animation: rotate3D 8s infinite linear;
     }
 
     /* Small Text Under Logo */
@@ -70,20 +79,32 @@
       letter-spacing: 1px;
       opacity: 0;
       animation: fadeIn 2s 1s forwards;
-      -webkit-animation: fadeIn 2s 1s forwards; /* Added for mobile */
+      -webkit-animation: fadeIn 2s 1s forwards;
     }
 
     /* 3D Rotation Animation */
     @keyframes rotate3D {
       0% { 
-        opacity: 1;
         transform: rotateY(0deg);
-        -webkit-transform: rotateY(0deg); /* Added for mobile */
+        -webkit-transform: rotateY(0deg);
       }
       100% { 
-        opacity: 1;
         transform: rotateY(360deg);
-        -webkit-transform: rotateY(360deg); /* Added for mobile */
+        -webkit-transform: rotateY(360deg);
+      }
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+      0% { 
+        opacity: 0; 
+        transform: translateY(20px); 
+        -webkit-transform: translateY(20px);
+      }
+      100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+        -webkit-transform: translateY(0);
       }
     }
 
@@ -111,27 +132,14 @@
       text-decoration: underline;
     }
 
-    /* Fade-in Animation */
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
     /* Improved Mobile Support */
     @media (max-width: 768px) {
       .content {
         padding: 15px;
       }
       .logo-container img {
-        width: 150px; /* Slightly smaller on mobile */
+        width: 150px;
       }
-    }
-
-    /* Ensure hardware acceleration */
-    .logo-container img {
-      -webkit-transform: translateZ(0); /* Force hardware acceleration */
-      transform: translateZ(0);
-      will-change: transform; /* Hint to browser for optimization */
     }
   </style>
 </head>
@@ -139,7 +147,9 @@
 
   <div class="content">
     <div class="logo-container">
-      <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
+      <div class="logo-wrapper">
+        <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
+      </div>
       <p class="logo-text">In Real Life</p>
     </div>
   </div>
