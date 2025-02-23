@@ -25,8 +25,28 @@
       justify-content: center;
       min-height: 100vh;
       padding-bottom: 60px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Video Background */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .video-background iframe {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: brightness(50%);
+      -webkit-filter: brightness(50%);
+      pointer-events: none;
     }
 
     /* Main Content */
@@ -48,13 +68,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      perspective: 200px; /* Dramatic 3D effect */
+      perspective: 200px;
       transform-style: preserve-3d;
     }
 
     .logo-wrapper {
       position: relative;
-      animation: rotate3D 6s infinite linear; /* Changed from 8s to 6s */
+      animation: rotate3D 6s infinite linear;
       -webkit-animation: rotate3D 6s infinite linear;
       display: flex;
       justify-content: center;
@@ -64,7 +84,7 @@
     }
 
     .logo-container img {
-      width: 235px; /* 25% bigger than original 188px */
+      width: 235px;
       height: auto;
       opacity: 0;
       animation: fadeIn 2s ease-out forwards;
@@ -85,7 +105,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 470px; /* 100% bigger than logo’s 235px */
+      width: 470px;
       height: auto;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
@@ -167,15 +187,25 @@
         padding: 15px;
       }
       .logo-container img {
-        width: 187.5px; /* 25% bigger than original 150px */
+        width: 187.5px;
       }
       .logo-wrapper::after {
-        width: 375px; /* 100% bigger than logo’s 187.5px */
+        width: 375px;
       }
     }
   </style>
 </head>
 <body>
+
+  <div class="video-background">
+    <iframe 
+      id="youtube-video"
+      src="https://www.youtube.com/embed/-5nFPNraHQ4?autoplay=1&mute=1&loop=1&playlist=-5nFPNraHQ4&controls=0&showinfo=0&rel=0&iv_load_policy=3&playsinline=1&start=45&vq=medium" 
+      frameborder="0" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <div class="content">
     <div class="logo-container">
