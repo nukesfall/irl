@@ -52,7 +52,7 @@
       height: auto;
       opacity: 0;
       animation: fadeIn 3.5s 1s forwards;
-      filter: brightness(1) drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.6)); /* Initial White Glow */
+      filter: brightness(1) drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.5)); /* Reduced initial glow */
       transition: filter 0.1s ease-out;
     }
 
@@ -85,7 +85,7 @@
       padding: 15px 0;
       text-align: center;
       width: 100%;
-      position: fixed; /* Fixes the footer at the bottom */
+      position: fixed;
       bottom: 0;
       left: 0;
       background: rgba(0, 0, 0, 0.8); /* Slight transparency */
@@ -134,25 +134,21 @@
     let glowX = 0, glowY = 0, brightness = 1;
 
     function updateGlow() {
-      const intensity = 15 + Math.abs(glowX) * 0.5 + Math.abs(glowY) * 0.5;
-      const glowOpacity = 0.6 + (brightness * 0.4);
+      const intensity = Math.min(8 + Math.abs(glowX) * 0.3 + Math.abs(glowY) * 0.3, 15); // Lower glow amount
+      const glowOpacity = 0.5 + (brightness * 0.2);
       
       logo.style.filter = `brightness(${brightness}) drop-shadow(${glowX}px ${glowY}px ${intensity}px rgba(255, 255, 255, ${glowOpacity}))`;
       
       requestAnimationFrame(updateGlow);
     }
 
-    // Automatically move glow
-    setInterval(() => {
-      glowX = Math.sin(Date.now() / 1000) * 10;
-      glowY = Math.cos(Date.now() / 1000) * 10;
-    }, 50);
-
-    // Adjust glow brightness based on phone tilt
+    // Adjust glow direction & brightness based on phone tilt
     window.addEventListener("deviceorientation", (event) => {
-      const tiltX = event.beta;  // Forward/backward tilt
-      const tiltY = event.gamma; // Left/right tilt
+      const tiltX = event.beta;  // Forward/backward tilt (-90 to 90)
+      const tiltY = event.gamma; // Left/right tilt (-90 to 90)
       
+      glowX = tiltY * 0.5; // Move glow horizontally with tilt
+      glowY = tiltX * 0.5; // Move glow vertically with tilt
       brightness = 1 + Math.abs(tiltX) / 90 + Math.abs(tiltY) / 90;
     });
 
