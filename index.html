@@ -52,7 +52,17 @@
       height: auto;
       opacity: 0;
       animation: fadeIn 2s forwards, floating 4s infinite ease-in-out;
-      filter: drop-shadow(0px 0px 10px rgba(0, 0, 255, 0.6)); /* Constant Blue Glow */
+      filter: drop-shadow(0px 0px 5px rgba(0, 0, 255, 0.3)); /* Dimmer Blue Glow */
+    }
+
+    /* Small Text Under Logo */
+    .logo-text {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-top: 8px;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeIn 2s 1s forwards;
     }
 
     /* Floating Animation */
@@ -60,28 +70,6 @@
       0% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
-    }
-
-    /* Contact Button */
-    .contact-button {
-      display: inline-block;
-      padding: 12px 30px;
-      font-size: 1rem;
-      color: #fff;
-      background: transparent;
-      border: 2px solid #fff;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      opacity: 0;
-      animation: fadeIn 3s 1.5s forwards;
-      margin-top: 40px;
-    }
-
-    .contact-button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.05);
     }
 
     /* Footer - Always Visible at Bottom */
@@ -127,8 +115,8 @@
   <div class="content">
     <div class="logo-container">
       <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
+      <p class="logo-text">In Real Life</p>
     </div>
-    <a href="mailto:support@irl.bot" class="contact-button">Connect</a>
   </div>
 
   <footer>
