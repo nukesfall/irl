@@ -56,7 +56,7 @@
       position: relative;
       animation: rotate3D 8s infinite linear;
       -webkit-animation: rotate3D 8s infinite linear;
-      display: flex; /* Ensure proper centering */
+      display: flex;
       justify-content: center;
       align-items: center;
     }
@@ -82,9 +82,9 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 188px; /* Match logo width */
-      height: auto; /* Let height scale with image */
-      transform: translate(-50%, -50%); /* Center precisely */
+      width: 188px;
+      height: auto;
+      transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       background: url('https://nukesfall.github.io/irl/logo.png') no-repeat center;
       background-size: contain;
@@ -94,15 +94,47 @@
       pointer-events: none;
     }
 
-    /* Small Text Under Logo */
+    /* Text Container */
+    .text-container {
+      position: relative;
+      height: 1.5em; /* Fixed height to prevent layout shift */
+      margin-top: 8px;
+    }
+
     .logo-text {
       font-size: 0.9rem;
       color: #ccc;
-      margin-top: 8px;
       letter-spacing: 1px;
+      position: absolute;
+      width: 100%;
       opacity: 0;
-      animation: fadeIn 2s 1s forwards;
-      -webkit-animation: fadeIn 2s 1s forwards;
+    }
+
+    .human-training {
+      animation: textCycle1 8s infinite;
+      -webkit-animation: textCycle1 8s infinite;
+    }
+
+    .in-real-life {
+      animation: textCycle2 8s infinite;
+      -webkit-animation: textCycle2 8s infinite;
+    }
+
+    /* Text Animations */
+    @keyframes textCycle1 {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      40% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes textCycle2 {
+      0% { opacity: 0; }
+      50% { opacity: 0; }
+      60% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     /* 3D Rotation Animation */
@@ -117,7 +149,7 @@
       }
     }
 
-    /* Fade-in Animation */
+    /* Fade-in Animation for Logo */
     @keyframes fadeIn {
       0% { 
         opacity: 0; 
@@ -164,7 +196,7 @@
         width: 150px;
       }
       .logo-wrapper::after {
-        width: 150px; /* Match mobile logo width */
+        width: 150px;
       }
     }
   </style>
@@ -176,7 +208,10 @@
       <div class="logo-wrapper">
         <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
       </div>
-      <p class="logo-text">In Real Life</p>
+      <div class="text-container">
+        <p class="logo-text human-training">Human Training</p>
+        <p class="logo-text in-real-life">In Real Life</p>
+      </div>
     </div>
   </div>
 
