@@ -97,8 +97,12 @@
     /* Text Container */
     .text-container {
       position: relative;
-      height: 1.5em; /* Fixed height to prevent layout shift */
+      height: 1.5em;
+      width: 100%; /* Ensure it takes full width for centering */
       margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .logo-text {
@@ -106,7 +110,9 @@
       color: #ccc;
       letter-spacing: 1px;
       position: absolute;
-      width: 100%;
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Offset by half its width */
+      -webkit-transform: translateX(-50%);
       opacity: 0;
     }
 
