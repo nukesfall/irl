@@ -22,8 +22,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center; /* Center vertically */
       min-height: 100vh;
-      text-align: center;
       padding-bottom: 60px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -62,7 +62,7 @@
     }
 
     .logo-container img {
-      width: 188px;
+      width: 235px; /* Increased from 188px by 25% (188 * 1.25 = 235) */
       height: auto;
       opacity: 0;
       animation: fadeIn 2s ease-out forwards;
@@ -82,7 +82,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 188px;
+      width: 235px; /* Match new logo width */
       height: auto;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
@@ -92,54 +92,6 @@
       opacity: 0.5;
       z-index: 0;
       pointer-events: none;
-    }
-
-    /* Text Container */
-    .text-container {
-      position: relative;
-      height: 1.5em; /* Fixed height for single line */
-      width: 100%;
-      margin-top: 20px; /* Increased spacing from logo (was 8px) */
-    }
-
-    .logo-text {
-      font-size: 0.9rem;
-      color: #ccc;
-      letter-spacing: 1px;
-      position: absolute;
-      top: 0; /* Align to top of container to prevent stacking */
-      left: 50%;
-      transform: translateX(-50%);
-      -webkit-transform: translateX(-50%);
-      opacity: 0;
-      margin: 0; /* Remove any default margins */
-    }
-
-    .human-training {
-      animation: textCycle1 8s infinite ease-in-out;
-      -webkit-animation: textCycle1 8s infinite ease-in-out;
-    }
-
-    .in-real-life {
-      animation: textCycle2 8s infinite ease-in-out;
-      -webkit-animation: textCycle2 8s infinite ease-in-out;
-    }
-
-    /* Text Animations with Longer Fades */
-    @keyframes textCycle1 {
-      0% { opacity: 0; }
-      15% { opacity: 1; }
-      35% { opacity: 1; }
-      55% { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    @keyframes textCycle2 {
-      0% { opacity: 0; }
-      45% { opacity: 0; }
-      65% { opacity: 1; }
-      85% { opacity: 1; }
-      100% { opacity: 0; }
     }
 
     /* 3D Rotation Animation */
@@ -198,13 +150,10 @@
         padding: 15px;
       }
       .logo-container img {
-        width: 150px;
+        width: 187.5px; /* 150px * 1.25 = 187.5px */
       }
       .logo-wrapper::after {
-        width: 150px;
-      }
-      .text-container {
-        margin-top: 15px; /* Slightly less spacing on mobile */
+        width: 187.5px; /* Match mobile logo width */
       }
     }
   </style>
@@ -215,10 +164,6 @@
     <div class="logo-container">
       <div class="logo-wrapper">
         <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
-      </div>
-      <div class="text-container">
-        <p class="logo-text human-training">Human Training</p>
-        <p class="logo-text in-real-life">In Real Life</p>
       </div>
     </div>
   </div>
