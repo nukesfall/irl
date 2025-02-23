@@ -82,13 +82,13 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 352.5px; /* 50% bigger than 235px (235 * 1.5) */
+      width: 352.5px; /* 50% bigger than 235px */
       height: auto;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       background: url('https://nukesfall.github.io/irl/logo.png') no-repeat center;
       background-size: contain;
-      filter: blur(15px) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)); /* Increased blur and spread */
+      filter: blur(15px) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
       opacity: 0.5;
       z-index: 0;
       pointer-events: none;
@@ -122,4 +122,80 @@
         transform: translateY(0); 
         -webkit-transform: translateY(0);
       }
-   
+    }
+
+    /* Footer */
+    footer {
+      font-size: 0.875rem;
+      color: #aaa;
+      padding: 15px 0;
+      text-align: center;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 3; /* Ensure footer is above glow */
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Fallback Text */
+    .fallback-text {
+      font-size: 1rem;
+      color: #fff;
+      display: none; /* Hidden unless image fails */
+    }
+
+    .logo-container img.error + .fallback-text {
+      display: block; /* Show if image fails */
+    }
+
+    /* Improved Mobile Support */
+    @media (max-width: 768px) {
+      .content {
+        padding: 15px;
+      }
+      .logo-container img {
+        width: 187.5px; /* 25% bigger than original 150px */
+      }
+      .logo-wrapper::after {
+        width: 281.25px; /* 50% bigger than 187.5px */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo" onerror="this.classList.add('error')">
+        <span class="fallback-text">Logo failed to load</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Check if image loaded successfully
+    const logo = document.getElementById('logo');
+    logo.addEventListener('load', () => {
+      logo.style.opacity = 1; // Ensure fade-in triggers
+    });
+  </script>
+
+</body>
+</html>
