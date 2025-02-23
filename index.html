@@ -52,7 +52,7 @@
       height: auto;
       opacity: 0;
       animation: fadeIn 3.5s 1s forwards;
-      filter: brightness(1) drop-shadow(0px 0px 15px rgba(0, 100, 255, 0.8)); /* Initial White-Blue Glow */
+      filter: brightness(1) drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.6)); /* Initial White Glow */
       transition: filter 0.1s ease-out;
     }
 
@@ -131,17 +131,32 @@
 
   <script>
     const logo = document.getElementById('logo');
+    let glowX = 0, glowY = 0, brightness = 1;
 
-    function updateGlowOnScroll() {
-      const scrollPosition = window.scrollY;
-      const intensity = Math.min(10 + scrollPosition * 0.05, 25); // Glow size changes with scroll
-      const opacity = Math.min(0.6 + scrollPosition * 0.001, 1); // Slight increase in intensity
-      const colorShift = Math.min(scrollPosition * 0.2, 150); // Shifts towards white
-
-      logo.style.filter = `brightness(1) drop-shadow(0px 0px ${intensity}px rgba(${colorShift}, 100, 255, ${opacity}))`;
+    function updateGlow() {
+      const intensity = 15 + Math.abs(glowX) * 0.5 + Math.abs(glowY) * 0.5;
+      const glowOpacity = 0.6 + (brightness * 0.4);
+      
+      logo.style.filter = `brightness(${brightness}) drop-shadow(${glowX}px ${glowY}px ${intensity}px rgba(255, 255, 255, ${glowOpacity}))`;
+      
+      requestAnimationFrame(updateGlow);
     }
 
-    window.addEventListener('scroll', updateGlowOnScroll);
+    // Automatically move glow
+    setInterval(() => {
+      glowX = Math.sin(Date.now() / 1000) * 10;
+      glowY = Math.cos(Date.now() / 1000) * 10;
+    }, 50);
+
+    // Adjust glow brightness based on phone tilt
+    window.addEventListener("deviceorientation", (event) => {
+      const tiltX = event.beta;  // Forward/backward tilt
+      const tiltY = event.gamma; // Left/right tilt
+      
+      brightness = 1 + Math.abs(tiltX) / 90 + Math.abs(tiltY) / 90;
+    });
+
+    updateGlow();
   </script>
 
 </body>
