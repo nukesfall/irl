@@ -26,6 +26,31 @@
       text-align: center;
       justify-content: center;
       padding-bottom: 60px;
+      overflow: hidden;
+    }
+
+    /* Star Background */
+    .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
     }
 
     /* Main Content */
@@ -37,6 +62,8 @@
       align-items: center;
       justify-content: center;
       flex-grow: 1;
+      position: relative;
+      z-index: 2;
     }
 
     /* Logo Container */
@@ -72,7 +99,7 @@
       100% { transform: translateY(0px); }
     }
 
-    /* Footer - Always Visible at Bottom */
+    /* Footer */
     footer {
       font-size: 0.875rem;
       color: #aaa;
@@ -112,6 +139,9 @@
 </head>
 <body>
 
+  <!-- Dynamic Stars Background -->
+  <div class="stars-container" id="stars-container"></div>
+
   <div class="content">
     <div class="logo-container">
       <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo">
@@ -122,6 +152,54 @@
   <footer>
     <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    const numStars = 100; // Number of stars
+    const starsContainer = document.getElementById("stars-container");
+    const stars = [];
+
+    function createStars() {
+      for (let i = 0; i < numStars; i++) {
+        let star = document.createElement("div");
+        star.classList.add("star");
+        
+        let size = Math.random() * 3 + 1; // Random size between 1px - 4px
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+        let duration = Math.random() * 5 + 3; // Different twinkle speeds
+        
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.animationDuration = `${duration}s`;
+        
+        starsContainer.appendChild(star);
+        stars.push({ el: star, x, y, size, depth: Math.random() * 3 + 1 });
+      }
+    }
+
+    function moveStars(event) {
+      let tiltX = 0, tiltY = 0;
+
+      if (event.type === "scroll") {
+        tiltY = window.scrollY * 0.1; // Increased movement on scroll
+      } else if (event.type === "deviceorientation") {
+        tiltX = event.gamma * 0.5;  // Stronger Left-Right tilt
+        tiltY = event.beta * 0.5;   // Stronger Forward-Backward tilt
+      }
+
+      stars.forEach(star => {
+        let moveX = (star.x + tiltX * star.depth) * 0.02;
+        let moveY = (star.y + tiltY * star.depth) * 0.02;
+        star.el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    }
+
+    window.addEventListener("scroll", moveStars);
+    window.addEventListener("deviceorientation", moveStars);
+    createStars();
+  </script>
 
 </body>
 </html>
