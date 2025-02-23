@@ -22,7 +22,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* Center vertically */
+      justify-content: center;
       min-height: 100vh;
       padding-bottom: 60px;
       overflow-y: auto;
@@ -54,15 +54,15 @@
 
     .logo-wrapper {
       position: relative;
-      animation: rotate3D 8s infinite linear;
-      -webkit-animation: rotate3D 8s infinite linear;
+      animation: rotate3D 3s infinite ease-in-out; /* Reduced duration for quicker bounce */
+      -webkit-animation: rotate3D 3s infinite ease-in-out;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .logo-container img {
-      width: 235px; /* Increased from 188px by 25% (188 * 1.25 = 235) */
+      width: 235px;
       height: auto;
       opacity: 0;
       animation: fadeIn 2s ease-out forwards;
@@ -82,7 +82,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 235px; /* Match new logo width */
+      width: 235px;
       height: auto;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
@@ -94,15 +94,19 @@
       pointer-events: none;
     }
 
-    /* 3D Rotation Animation */
+    /* Bounce Animation */
     @keyframes rotate3D {
       0% { 
-        transform: rotateY(0deg);
-        -webkit-transform: rotateY(0deg);
+        transform: rotateY(-45deg);
+        -webkit-transform: rotateY(-45deg);
+      }
+      50% { 
+        transform: rotateY(45deg);
+        -webkit-transform: rotateY(45deg);
       }
       100% { 
-        transform: rotateY(360deg);
-        -webkit-transform: rotateY(360deg);
+        transform: rotateY(-45deg);
+        -webkit-transform: rotateY(-45deg);
       }
     }
 
@@ -150,10 +154,10 @@
         padding: 15px;
       }
       .logo-container img {
-        width: 187.5px; /* 150px * 1.25 = 187.5px */
+        width: 187.5px;
       }
       .logo-wrapper::after {
-        width: 187.5px; /* Match mobile logo width */
+        width: 187.5px;
       }
     }
   </style>
