@@ -53,21 +53,20 @@
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
       object-fit: cover;
-      filter: brightness(75%); /* Increased from 50% to 75% for brighter effect */
+      filter: brightness(75%);
       -webkit-filter: brightness(75%);
-      opacity: 0;
-      animation: videoFadeIn 2s ease-out forwards;
-      -webkit-animation: videoFadeIn 2s ease-out forwards;
+      /* Removed fade-in animation to avoid initial fade */
     }
 
-    /* Video Fade-in Animation */
-    @keyframes videoFadeIn {
-      0% { 
-        opacity: 0; 
-      }
-      100% { 
-        opacity: 1; 
-      }
+    /* Persistent White Overlay */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(249, 249, 249, 0.3); /* #f9f9f9 with 30% opacity */
+      z-index: 2; /* Above video, below content */
     }
 
     /* Main Content */
@@ -80,7 +79,7 @@
       justify-content: center;
       flex-grow: 1;
       position: relative;
-      z-index: 2;
+      z-index: 3; /* Above overlay */
     }
 
     /* Logo Container */
@@ -132,7 +131,7 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      z-index: 3;
+      z-index: 4; /* Above overlay */
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       -webkit-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -189,6 +188,7 @@
     <video autoplay muted loop playsinline id="background-video">
       <source src="./xyz.MP4" type="video/mp4">
     </video>
+    <div class="video-overlay"></div>
     <div class="video-fallback">Video failed to load. Please check if "xyz.MP4" is in the main folder.</div>
   </div>
 
