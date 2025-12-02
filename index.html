@@ -82,9 +82,11 @@
     }
 
     /* Footer */
+    <footer>
+  <style>
     footer {
       font-size: 0.875rem;
-      color: #b63536;
+      color: #000000; /* black text */
       padding: 15px 0;
       text-align: center;
       width: 100%;
@@ -92,11 +94,11 @@
       bottom: 0;
       left: 0;
       z-index: 3;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     footer a {
-      color: #b63536;
+      color: #000000; /* black links */
       text-decoration: none;
       font-weight: bold;
     }
@@ -104,41 +106,10 @@
     footer a:hover {
       text-decoration: underline;
     }
-
-    /* Fallback Text */
-    .fallback-text {
-      font-size: 1rem;
-      color: #b63536;
-      display: none;
-    }
-
-    .logo-container img.error + .fallback-text {
-      display: block;
-    }
-
-    /* Mobile Support */
-    @media (max-width: 768px) {
-      .content {
-        padding: 15px;
-      }
-      .logo-container img {
-        width: 187.5px;
-      }
-    }
   </style>
-</head>
-<body>
 
-  <div class="content">
-    <div class="logo-container">
-      <div class="logo-wrapper">
-        <img id="logo" src="https://nukesfall.github.io/irl/logo.png" alt="IRL Logo" onerror="this.classList.add('error')">
-        <span class="fallback-text">Logo failed to load</span>
-      </div>
-    </div>
-  </div>
-
-  <footer>
+  <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
+</footer>
     <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
   </footer>
 
