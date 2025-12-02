@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>In Real Life</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
   <style>
     /* Global Reset */
     * {
@@ -16,8 +17,8 @@
     /* Body Layout */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f7f5f2; /* softened off-white background */
-      color: #000; /* Switch text to dark since background is light */
+      background-color: #f7f5f2; 
+      color: #000;
       line-height: 1.6;
       display: flex;
       flex-direction: column;
@@ -43,50 +44,23 @@
     }
 
     /* Logo Container */
-    .logo-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .logo-wrapper {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
     .logo-container img {
       width: 235px;
       height: auto;
       opacity: 0;
       animation: fadeIn 2s ease-out forwards;
-      -webkit-animation: fadeIn 2s ease-out forwards;
-      position: relative;
-      z-index: 1;
     }
 
-    /* Fade-in Animation for Logo */
+    /* Fade-in Animation */
     @keyframes fadeIn {
-      0% { 
-        opacity: 0; 
-        transform: translateY(20px); 
-        -webkit-transform: translateY(20px);
-      }
-      100% { 
-        opacity: 1; 
-        transform: translateY(0); 
-        -webkit-transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     /* Footer */
-    <footer>
-  <style>
     footer {
       font-size: 0.875rem;
-      color: #000000; /* black text */
+      color: #000000;
       padding: 15px 0;
       text-align: center;
       width: 100%;
@@ -94,11 +68,10 @@
       bottom: 0;
       left: 0;
       z-index: 3;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     footer a {
-      color: #000000; /* black links */
+      color: #000000;
       text-decoration: none;
       font-weight: bold;
     }
@@ -106,10 +79,26 @@
     footer a:hover {
       text-decoration: underline;
     }
-  </style>
 
-  <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
-</footer>
+    /* Mobile tweaks */
+    @media (max-width: 768px) {
+      .logo-container img {
+        width: 187.5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="content">
+    <div class="logo-container">
+      <!-- IMPORTANT: This must match the exact filename, including capitalization -->
+      <img id="logo" src="Logo.png" alt="IRL Logo" onerror="this.classList.add('error')">
+    </div>
+  </div>
+
+  <footer>
     <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
   </footer>
 
