@@ -16,8 +16,8 @@
     /* Body Layout */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #0f161c;
-      color: #fff;
+      background-color: #f7f5f2; /* softened off-white background */
+      color: #000; /* Switch text to dark since background is light */
       line-height: 1.6;
       display: flex;
       flex-direction: column;
@@ -84,7 +84,7 @@
     /* Footer */
     footer {
       font-size: 0.875rem;
-      color: #b63536; /* Changed from #2c4144 to #b63536 */
+      color: #b63536;
       padding: 15px 0;
       text-align: center;
       width: 100%;
@@ -93,15 +93,12 @@
       left: 0;
       z-index: 3;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      -webkit-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     footer a {
-      color: #b63536; /* Changed from #2c4144 to #b63536 */
+      color: #b63536;
       text-decoration: none;
       font-weight: bold;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      -webkit-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     footer a:hover {
@@ -111,7 +108,7 @@
     /* Fallback Text */
     .fallback-text {
       font-size: 1rem;
-      color: #b63536; /* Updated to match footer color */
+      color: #b63536;
       display: none;
     }
 
@@ -119,7 +116,7 @@
       display: block;
     }
 
-    /* Improved Mobile Support */
+    /* Mobile Support */
     @media (max-width: 768px) {
       .content {
         padding: 15px;
