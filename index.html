@@ -15,23 +15,14 @@
       --text: #111111;
       --muted: #555555;
       --pill-bg: rgba(255, 255, 255, 0.7);
-      --shadow-soft: 0 18px 45px rgba(15, 15, 15, 0.08);
-      --radius-pill: 999px;
-      --max-width: 960px;
+      --shadow-soft: 0 18px 45px rgba(15,15,15,0.08);
+      --radius-pill: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Inter", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
@@ -43,48 +34,47 @@
       flex-direction: column;
     }
 
-    .shell {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding-inline: 24px;
-    }
-
     header {
       position: sticky;
       top: 0;
       z-index: 10;
       backdrop-filter: blur(18px);
-      background: linear-gradient(to bottom, rgba(247, 247, 244, 0.9), rgba(247, 247, 244, 0));
+      padding: 12px;
+      background: linear-gradient(to bottom, rgba(247,247,244,0.9), rgba(247,247,244,0));
     }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0 14px;
-    }
-
-    .brand-pill {
-      padding: 8px 16px;
+    /* FULL-WIDTH BRAND BAR */
+    .brand-bar {
+      width: calc(100% - 24px);
+      margin: 0 auto;
+      padding: 12px 20px;
       border-radius: var(--radius-pill);
       background: var(--pill-bg);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      display: inline-flex;
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      gap: 12px;
+      justify-content: flex-start; /* LEFT aligned */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
     }
 
     .brand-mark {
       width: 8px;
       height: 8px;
-      border-radius: 999px;
+      border-radius: 50%;
       background: #2F4BFF;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      text-align: left; /* ensures left alignment */
     }
 
     .brand-text-main {
-      font-size: 13px;
+      font-size: 14px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 500;
@@ -100,119 +90,58 @@
       flex: 1;
       display: flex;
       align-items: center;
-    }
-
-    .hero {
-      width: 100%;
-      padding: 40px 0 72px;
+      justify-content: center;
+      padding: 40px 0 60px;
     }
 
     .hero-inner {
       text-align: center;
-      padding-top: 32px;
-      padding-bottom: 32px;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: var(--radius-pill);
-      background: var(--pill-bg);
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .hero-title {
-      font-size: clamp(40px, 5vw, 60px);
-      line-height: 1.02;
-      letter-spacing: -0.03em;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-
-    .hero-sub {
-      font-size: 16px;
-      color: var(--muted);
-      margin-bottom: 20px;
+      padding: 40px 0;
     }
 
     .hero-note {
-      font-size: 13px;
+      font-size: 18px;
       color: var(--muted);
-      margin-top: 10px;
     }
 
     footer {
       border-top: 1px solid rgba(0,0,0,0.06);
-      padding: 18px 0 24px;
+      padding: 18px 0;
       font-size: 11px;
       color: var(--muted);
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       text-align: center;
-    }
-
-    @media (max-width: 640px) {
-      .hero {
-        padding-top: 24px;
-      }
-      .hero-title {
-        font-size: 32px;
-      }
-      .hero-sub {
-        font-size: 15px;
-      }
     }
   </style>
 </head>
+
 <body>
 <div class="page">
+
   <header>
-    <div class="shell">
-      <nav class="nav" aria-label="Primary">
-        <div class="brand-pill">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <div>
-            <div class="brand-text-main">IRL</div>
-            <div class="brand-text-sub">In Real Life™</div>
-          </div>
-        </div>
-      </nav>
+    <div class="brand-bar">
+      <span class="brand-mark"></span>
+      <div class="brand-text">
+        <div class="brand-text-main">IRL</div>
+        <div class="brand-text-sub">In Real Life™</div>
+      </div>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="shell">
-        <div class="hero-inner">
-          
-          <p class="hero-note">
-            Coming&nbsp;2026.
-          </p>
-        </div>
-      </div>
-    </section>
+    <div class="hero-inner">
+      <p class="hero-note">Coming 2026.</p>
+    </div>
   </main>
 
   <footer>
-    <div class="shell">
-      <div class="footer-inner">
-        © <span id="year"></span>-In Real Life™
-      </div>
-    </div>
+    © <span id="year"></span> In Real Life™
   </footer>
+
 </div>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+
 </body>
 </html>
