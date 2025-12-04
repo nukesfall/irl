@@ -2,112 +2,217 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>In Real Life</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>IRL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="IRL — In Real Life™ Robotics. Coming 2026.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* Global Reset */
+    :root {
+      --bg: #F7F7F4;
+      --text: #111111;
+      --muted: #555555;
+      --pill-bg: rgba(255, 255, 255, 0.7);
+      --shadow-soft: 0 18px 45px rgba(15, 15, 15, 0.08);
+      --radius-pill: 999px;
+      --max-width: 960px;
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
-    /* Body Layout */
+    html, body {
+      height: 100%;
+    }
+
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f7f5f2; 
-      color: #000;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding-bottom: 60px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      position: relative;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Main Content */
-    .content {
-      max-width: 900px;
-      padding: 20px;
+    .page {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding-inline: 24px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(247, 247, 244, 0.9), rgba(247, 247, 244, 0));
+    }
+
+    .nav {
+      display: flex;
       align-items: center;
       justify-content: center;
-      flex-grow: 1;
-      position: relative;
-      z-index: 2;
+      padding: 20px 0 14px;
     }
 
-    /* Logo Container */
-    .logo-container img {
-      width: 235px;
-      height: auto;
-      opacity: 0;
-      animation: fadeIn 2s ease-out forwards;
+    .brand-pill {
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      background: var(--pill-bg);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     }
 
-    /* Fade-in Animation */
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+    .brand-mark {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #2F4BFF;
     }
 
-    /* Footer */
-    footer {
-      font-size: 0.875rem;
-      color: #000000;
-      padding: 15px 0;
-      text-align: center;
+    .brand-text-main {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.9;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero {
       width: 100%;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 3;
+      padding: 40px 0 72px;
     }
 
-    footer a {
-      color: #000000;
-      text-decoration: none;
-      font-weight: bold;
+    .hero-inner {
+      text-align: center;
+      padding-top: 32px;
+      padding-bottom: 32px;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--pill-bg);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
     }
 
-    /* Mobile tweaks */
-    @media (max-width: 768px) {
-      .logo-container img {
-        width: 187.5px;
+    .hero-title {
+      font-size: clamp(40px, 5vw, 60px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .hero-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 0 24px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 24px;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .hero-sub {
+        font-size: 15px;
       }
     }
   </style>
 </head>
-
 <body>
-
-  <div class="content">
-    <div class="logo-container">
-      <!-- IMPORTANT: This must match the exact filename, including capitalization -->
-      <img id="logo" src="Logo.png" alt="IRL Logo" onerror="this.classList.add('error')">
+<div class="page">
+  <header>
+    <div class="shell">
+      <nav class="nav" aria-label="Primary">
+        <div class="brand-pill">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <div class="brand-text-main">IRL</div>
+            <div class="brand-text-sub">In Real Life™</div>
+          </div>
+        </div>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <div class="hero-inner">
+          
+          <p class="hero-note">
+            Coming&nbsp;2026.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>© 2025 <a href="https://www.irl.bot" target="_blank">In Real Life</a>. All Rights Reserved.</p>
+    <div class="shell">
+      <div class="footer-inner">
+        © <span id="year"></span>-In Real Life™
+      </div>
+    </div>
   </footer>
+</div>
 
-  <script>
-    const logo = document.getElementById('logo');
-    logo.addEventListener('load', () => {
-      logo.style.opacity = 1;
-    });
-  </script>
-
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
