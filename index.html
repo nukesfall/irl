@@ -1,1 +1,393 @@
-<!doctype html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>IRL Robotics - Home</title><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel=stylesheet><style>html{background:linear-gradient(180deg,#171b1eff 0%,#a2b0b9ff 100%)}:root{--ink:#f7f9fa;--muted:#eef1f2}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#171b1eff 0%,#a2b0b9ff 100%);-webkit-font-smoothing:antialiased;min-height:120vh;overflow:auto;padding-bottom:0}a{text-decoration:none;color:inherit}img{pointer-events:none;user-select:none;-webkit-user-drag:none}.top{position:fixed;top:25px;left:0;width:100%;z-index:9}.top-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}.top img{height:10px}.contact{font-size:14px;opacity:.9}.contact:hover{opacity:1}.main{height:100vh;display:flex;align-items:center;justify-content:center;padding:0 24px}.center{max-width:640px;text-align:center}.center h1{font-size:40px;font-weight:500;letter-spacing:-.02em;margin-bottom:16px}.center p{font-size:17px;color:var(--muted);line-height:1.5}.signal{margin-top:28px;font-size:14px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;animation:b 2.4s ease-in-out infinite}.signal img{height:14px;width:auto;opacity:.85}@keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}footer{position:fixed;bottom:25px;left:0;width:100%;font-size:12px;color:var(--muted)}.footer-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between}</style></head><body><div class=top><div class=top-inner><img src=dlogo.png alt=IRL><a class=contact href=mailto:contact@irl.bot>Contact</a></div></div><main class=main><div class=center><h1>Robots, In Real Life.</h1><p>Building</p><div class=signal><span></span><img src=flag.png alt=""></div></div></main><footer><div class=footer-inner><span>© <span id=y></span> IRL Robotics™</span><span>contact@irl.bot</span></div></footer><script>!function(){document.getElementById("y").textContent=(new Date).getFullYear(),document.addEventListener("contextmenu",function(e){"IMG"===e.target.tagName&&e.preventDefault()}),document.addEventListener("dragstart",function(e){e.preventDefault()})}();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IRL Robotics</title>
+  <meta name="description" content="IRL Robotics builds robots for the real world." />
+  <meta name="theme-color" content="#0b0d10" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --ink:#f7f9fa;
+      --muted:rgba(247,249,250,.78);
+      --bg:#050607;
+      --line:rgba(247,249,250,.10);
+      --max:1400px;
+      --pad:24px;
+      --ease:cubic-bezier(.2,.8,.2,1);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{pointer-events:none;user-select:none;-webkit-user-drag:none}
+
+    /* top bar */
+    .top{
+      position:fixed;
+      top:22px;
+      left:0;
+      width:100%;
+      z-index:50;
+      pointer-events:none;
+    }
+    .top-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 var(--pad);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:auto;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      opacity:.95;
+    }
+    .brand img{height:10px}
+    .nav{
+      display:flex;
+      gap:22px;
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+    .nav a{opacity:.85; transition:opacity .2s var(--ease)}
+    .nav a:hover{opacity:1}
+    .nav a.active{opacity:1}
+
+    /* scroll progress */
+    #progress{
+      position:fixed;
+      top:0; left:0;
+      height:3px;
+      width:0%;
+      background:rgba(247,249,250,.92);
+      z-index:60;
+      opacity:0;
+      transition:opacity .25s var(--ease);
+    }
+
+    /* sections */
+    .section{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      padding:120px var(--pad) 90px;
+      isolation:isolate;
+    }
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      width:100%;
+      display:flex;
+      align-items:center;
+    }
+    .content{
+      max-width:760px;
+    }
+
+    /* background layer (videos swap per section) */
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .bg video, .bg img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform:scale(1.03);
+      filter:saturate(1.05) contrast(1.02);
+    }
+
+    /* scene switch */
+    .bg[data-scene="hero"] .v-hero{display:block}
+    .bg[data-scene="hero"] .v-about,
+    .bg[data-scene="hero"] .v-work{display:none}
+
+    .bg[data-scene="about"] .v-about{display:block}
+    .bg[data-scene="about"] .v-hero,
+    .bg[data-scene="about"] .v-work{display:none}
+
+    .bg[data-scene="work"] .v-work{display:block}
+    .bg[data-scene="work"] .v-hero,
+    .bg[data-scene="work"] .v-about{display:none}
+
+    /* readability overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 20% 55%, rgba(0,0,0,.55) 0%, rgba(0,0,0,.78) 55%, rgba(0,0,0,.92) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.78) 70%, rgba(0,0,0,.92) 100%);
+    }
+
+    /* type */
+    h1{
+      font-size:clamp(34px, 4.2vw, 54px);
+      font-weight:500;
+      letter-spacing:-.02em;
+      line-height:1.06;
+      text-shadow:0 14px 55px rgba(0,0,0,.55);
+    }
+    .lede{
+      margin-top:14px;
+      font-size:17px;
+      line-height:1.55;
+      color:var(--muted);
+      max-width:55ch;
+    }
+    .kicker{
+      margin-top:26px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(247,249,250,.70);
+      opacity:.95;
+    }
+    .kicker img{height:14px; opacity:.8}
+
+    /* reveals */
+    .hero-fade{
+      opacity:0;
+      transform:translateY(10px);
+      transition:opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    body.page-loaded .hero-fade{
+      opacity:1;
+      transform:translateY(0);
+    }
+    .text-pop{
+      opacity:0;
+      transform:translateY(18px) scale(.99);
+      transition:opacity .9s var(--ease), transform .9s var(--ease);
+    }
+    .text-pop.visible{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    /* footer */
+    footer{
+      position:fixed;
+      bottom:22px;
+      left:0;
+      width:100%;
+      z-index:50;
+      color:rgba(247,249,250,.70);
+      font-size:12px;
+      pointer-events:none;
+    }
+    .footer-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 var(--pad);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      pointer-events:auto;
+    }
+    .footer-inner a{opacity:.85}
+    .footer-inner a:hover{opacity:1}
+
+    /* mobile */
+    @media (max-width:720px){
+      .nav{display:none}
+      .section{padding-top:110px}
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero-fade, .text-pop{transition:none !important; transform:none !important; opacity:1 !important}
+      #progress{transition:none}
+      .bg video{display:none}
+      .overlay{background:linear-gradient(180deg, rgba(0,0,0,.70) 0%, rgba(0,0,0,.92) 100%)}
+    }
+  </style>
+</head>
+
+<body>
+  <div id="progress"></div>
+
+  <!-- background scenes -->
+  <div class="bg" id="bg" data-scene="hero" aria-hidden="true">
+    <video class="v-hero" src="hero.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video class="v-about" src="about.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video class="v-work" src="work.mp4" autoplay muted loop playsinline preload="auto"></video>
+  </div>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="#top" aria-label="IRL Robotics Home">
+        <img src="dlogo.png" alt="IRL Robotics" />
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#about" data-link="about">Company</a>
+        <a href="#work" data-link="work">Work</a>
+        <a href="mailto:contact@irl.bot">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- hero -->
+    <section class="section" id="hero" data-scene="hero">
+      <div class="wrap">
+        <div class="content hero-fade">
+          <h1>Robots, In Real Life.</h1>
+          <p class="lede">Autonomy for real environments.</p>
+          <div class="kicker" aria-hidden="true">
+            <span>Building</span>
+            <img src="flag.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- about -->
+    <section class="section" id="about" data-scene="about">
+      <div class="wrap">
+        <div class="content text-pop">
+          <h1 style="font-size:clamp(26px, 3.2vw, 40px); font-weight:500;">In the field, not just the lab.</h1>
+          <p class="lede" style="margin-top:14px;">
+            We collect data for robots.
+            We believe the robots of tomorrow will be trained in real homes, on real tasks, in real life.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- work -->
+    <section class="section" id="work" data-scene="work">
+      <div class="wrap">
+        <div class="content text-pop">
+          <h1 style="font-size:clamp(26px, 3.2vw, 40px); font-weight:500;">What we’re building</h1>
+          <p class="lede" style="margin-top:14px;">
+            Datasets for robots.
+            <br /><br />
+            <span style="color:rgba(247,249,250,.70); font-size:14px;">BUILDING</span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© <span id="y"></span> IRL Robotics™</span>
+      <a href="mailto:contact@irl.bot">contact@irl.bot</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // year
+      document.getElementById("y").textContent = new Date().getFullYear();
+
+      // no right-click on imgs + no dragging
+      document.addEventListener("contextmenu", function (e) {
+        if (e.target && e.target.tagName === "IMG") e.preventDefault();
+      });
+      document.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+      // hero comes in after load
+      window.addEventListener("load", () => {
+        setTimeout(() => document.body.classList.add("page-loaded"), 80);
+      });
+
+      // autoplay helpers
+      document.querySelectorAll("video").forEach((v) => {
+        v.muted = true;
+        v.setAttribute("muted", "");
+        v.setAttribute("playsinline", "");
+        if (!v.hasAttribute("loop")) v.setAttribute("loop", "");
+        v.play().catch(() => {});
+      });
+
+      // swap background scene based on what’s in view
+      const bg = document.getElementById("bg");
+      const sections = [...document.querySelectorAll("section[data-scene]")];
+
+      const sceneObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible) bg.setAttribute("data-scene", visible.target.getAttribute("data-scene"));
+      }, { threshold: [0.35, 0.5, 0.65] });
+
+      sections.forEach(s => sceneObserver.observe(s));
+
+      // reveal text as you scroll
+      const popObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("visible");
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.18 });
+
+      document.querySelectorAll(".text-pop").forEach(el => popObserver.observe(el));
+
+      // progress bar + active nav
+      const progress = document.getElementById("progress");
+      const navLinks = [...document.querySelectorAll(".nav a[data-link]")];
+
+      function updateProgress() {
+        const scrollTop = window.scrollY || window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progress.style.width = pct + "%";
+
+        // don’t show it until you’re past the hero
+        const hero = document.getElementById("hero");
+        const heroBottom = hero.offsetTop + hero.offsetHeight * 0.55;
+        progress.style.opacity = scrollTop > heroBottom ? 1 : 0;
+      }
+
+      const activeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          navLinks.forEach(a => a.classList.toggle("active", a.dataset.link === id));
+        });
+      }, { threshold: 0.55 });
+
+      ["about", "work"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) activeObserver.observe(el);
+      });
+
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+      window.addEventListener("load", updateProgress);
+    })();
+  </script>
+</body>
+</html>
