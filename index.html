@@ -13,6 +13,8 @@
       --muted: rgba(255,255,255,.7);
       --border: rgba(255,255,255,.12);
       --separator-glow: rgba(59, 130, 246, 0.15);
+      --modal-bg: #0b0d10; /* solid dark for non-see-through modal */
+      --input-bg: #111; /* solid input background */
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body {
@@ -57,7 +59,7 @@
     .logo img {
       width: clamp(240px, 50vw, 360px);
       display: block;
-      margin-bottom: clamp(20px, 5vw, 36px); /* balanced gap to separator */
+      margin-bottom: clamp(20px, 5vw, 36px);
     }
     .separator {
       width: 120px;
@@ -113,7 +115,7 @@
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.85);
+      background: rgba(0,0,0,0.92); /* darker overlay for solid feel */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -127,14 +129,14 @@
       pointer-events: auto;
     }
     .modal-box {
-      background: rgba(11,13,16,0.8);
+      background: var(--modal-bg); /* solid dark background */
       padding: 30px;
       border-radius: 16px;
       width: 90%;
       max-width: 420px;
       text-align: left;
       border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
     }
     .modal-box h2 {
       margin-bottom: 16px;
@@ -146,7 +148,7 @@
       margin-bottom: 12px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
+      background: var(--input-bg); /* solid background – no see-through */
       color: var(--text);
       font-size: 16px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -165,6 +167,10 @@
       color: var(--bg);
       font-weight: 600;
       cursor: pointer;
+      transition: .2s ease;
+    }
+    .submit:hover {
+      background: #e0e0e0;
     }
     .close {
       position: absolute;
