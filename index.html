@@ -175,7 +175,7 @@
 <body>
 <div class="container">
   <div class="logo">
-    <img src="dlogo.png" alt="IRL Robotics">
+    <img src="logo.png" alt="IRL Robotics">
   </div>
   <h1>
     Train Robots.<br>
@@ -189,7 +189,6 @@
     <div class="limited-access">Limited early access</div>
   </div>
 </div>
-
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-box" id="formBox">
@@ -204,17 +203,13 @@
     </form>
   </div>
 </div>
-
 <footer>
   © <span id="y"></span> IRL Robotics
 </footer>
-
 <script>
   const modal = document.getElementById("modal");
   const formBox = document.getElementById("formBox");
   const form = document.getElementById("waitlistForm");
-
-  // Your Google Apps Script web app URL
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhdrVNGwbl6PUD2utNZKMuG1pXDzt82f94ex7WzhQWMpzrzOqa9n7kNBP_TvDguMbcng/exec";
 
   function openModal() {
@@ -227,275 +222,13 @@
 
   form.addEventListener("submit", async function(e) {
     e.preventDefault();
-
     const formData = new FormData(form);
-
     try {
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         body: formData
       });
-
       if (response.ok) {
-        // Optional: await response.json() if your script returns JSON success
-        formBox.innerHTML = `
-          <div class="success">
-            <h2>You're in.</h2>
-            <p>Thanks for applying to IRL.<br>We’ll be in touch soon.</p>
-          </div>
-        `;
-      } else {
-        throw new Error("Network response was not ok");
-      }
-    } catch (err) {
-      formBox.innerHTML += `<p class="error">Something went wrong — please try again or email hey@irl.bot directly.</p>`;
-      console.error(err);
-    }
-  });
-
-  document.getElementById("y").textContent = new Date().getFullYear();
-</script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IRL Robotics</title>
-  <meta name="description" content="Train robots. Get paid." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    :root{
-      --bg:#050607;
-      --text:#ffffff;
-      --muted:rgba(255,255,255,.7);
-      --card:#0b0d10;
-      --border:rgba(255,255,255,.15);
-      --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.4);
-    }
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg:#f7f7f7;
-        --text:#0a0a0a;
-        --muted:rgba(0,0,0,.6);
-        --card:#ffffff;
-        --border:rgba(0,0,0,.15);
-        --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.35);
-      }
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:Inter,system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      transition:background .3s ease, color .3s ease;
-    }
-    .container{
-      padding:24px;
-      max-width:700px;
-      width:100%;
-    }
-    .logo img{
-      width:clamp(140px, 30vw, 260px);
-      margin-bottom:40px;
-    }
-    h1{
-      font-size:clamp(28px, 5vw, 48px);
-      font-weight:600;
-      line-height:1.1;
-      background: linear-gradient(to bottom, #ffffff 0%, #cccccc 40%, #999999 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-    @media (prefers-color-scheme: light) {
-      h1 {
-        background: linear-gradient(to bottom, #000000 0%, #333333 40%, #666666 100%);
-      }
-    }
-    .sub{
-      margin-top:16px;
-      font-size:18px;
-      color:var(--muted);
-    }
-    .cta{
-      margin-top:40px;
-    }
-    .btn{
-      padding:16px 28px;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:500;
-      background:#111;
-      color:#fff;
-      border:1px solid var(--border);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      border-color:rgba(255,255,255,.35);
-    }
-    .limited-access {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 400;
-      letter-spacing: 0.3px;
-    }
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.6);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
-    }
-    .modal.active{
-      opacity:1;
-      pointer-events:auto;
-    }
-    .modal-box{
-      background:var(--card);
-      padding:30px;
-      border-radius:16px;
-      width:90%;
-      max-width:420px;
-      text-align:left;
-      border:1px solid var(--border);
-    }
-    .modal-box h2{
-      margin-bottom:16px;
-      font-size:20px;
-    }
-    .input{
-      width:100%;
-      padding:12px;
-      margin-bottom:12px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:transparent;
-      color:var(--text);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .input:focus{
-      outline: none;
-      border-color: rgba(59, 130, 246, 0.6);
-      box-shadow: var(--focus-glow);
-    }
-    .submit{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:var(--text);
-      color:var(--bg);
-      font-weight:600;
-      cursor:pointer;
-    }
-    .close{
-      position:absolute;
-      top:20px;
-      right:24px;
-      font-size:20px;
-      cursor:pointer;
-    }
-    .success{
-      text-align:center;
-      font-size:16px;
-      line-height:1.4;
-      color: #10b981;
-    }
-    .error{
-      color: #ef4444;
-      margin-top:12px;
-      font-size:14px;
-    }
-    footer{
-      position:absolute;
-      bottom:16px;
-      width:100%;
-      font-size:12px;
-      color:var(--muted);
-    }
-  </style>
-</head>
-<body>
-<div class="container">
-  <div class="logo">
-    <img src="dlogo.png" alt="IRL Robotics">
-  </div>
-  <h1>
-    Train Robots.<br>
-    Get Paid.
-  </h1>
-  <p class="sub">
-    Real tasks. Real data. Real money.
-  </p>
-  <div class="cta">
-    <button class="btn" onclick="openModal()">Apply for IRL</button>
-    <div class="limited-access">Limited early access</div>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box" id="formBox">
-    <div class="close" onclick="closeModal()">×</div>
-    <h2>Join the IRL Waitlist</h2>
-    <form id="waitlistForm" method="POST">
-      <input class="input" name="first" placeholder="First Name" required>
-      <input class="input" name="last" placeholder="Last Name" required>
-      <input class="input" name="email" type="email" placeholder="Email Address" required>
-      <input class="input" name="ref" placeholder="How did you hear about IRL?">
-      <button type="submit" class="submit">Apply</button>
-    </form>
-  </div>
-</div>
-
-<footer>
-  © <span id="y"></span> IRL Robotics
-</footer>
-
-<script>
-  const modal = document.getElementById("modal");
-  const formBox = document.getElementById("formBox");
-  const form = document.getElementById("waitlistForm");
-
-  // Your Google Apps Script web app URL
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhdrVNGwbl6PUD2utNZKMuG1pXDzt82f94ex7WzhQWMpzrzOqa9n7kNBP_TvDguMbcng/exec";
-
-  function openModal() {
-    modal.classList.add("active");
-  }
-
-  function closeModal() {
-    modal.classList.remove("active");
-  }
-
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: formData
-      });
-
-      if (response.ok) {
-        // Optional: await response.json() if your script returns JSON success
         formBox.innerHTML = `
           <div class="success">
             <h2>You're in.</h2>
