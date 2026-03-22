@@ -2,56 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>IRL Robotics</title>
   <meta name="description" content="Train robots. Get paid." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root{
-      --bg:#000000;
-      --text:#ffffff;
-      --muted:rgba(255,255,255,.7);
-      --card:#0b0d10;
-      --border:rgba(255,255,255,.15);
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.7);
+      --card: #0b0d10;
+      --border: rgba(255,255,255,.15);
       --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.4);
     }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:Inter,system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      height:100vh;
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      margin: 0;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior-y: auto; /* restores pull-to-refresh bounce */
+    }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-y: auto; /* enables pull-to-refresh and scroll if needed */
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
     #particles-canvas {
       position: fixed;
       inset: 0;
       z-index: -1;
     }
-    .container{
-      padding:24px;
-      max-width:700px;
-      width:100%;
+    .container {
+      padding: 24px;
+      max-width: 700px;
+      width: 100%;
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .logo img{
-      width: clamp(220px, 45vw, 380px); /* much bigger, dominant at top */
-      margin-bottom: 48px; /* more space below logo */
+    .logo img {
+      width: clamp(220px, 45vw, 380px);
+      margin-bottom: 48px;
       display: block;
     }
-    h1{
-      font-size:clamp(28px, 5vw, 48px);
-      font-weight:600;
-      line-height:1.1;
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 600;
+      line-height: 1.1;
       background: linear-gradient(to bottom, #ffffff 0%, #cccccc 40%, #999999 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -60,28 +67,28 @@
       display: inline-block;
       margin-bottom: 16px;
     }
-    .sub{
-      margin-top:8px;
-      font-size:18px;
-      color:var(--muted);
+    .sub {
+      margin-top: 8px;
+      font-size: 18px;
+      color: var(--muted);
     }
-    .cta{
-      margin-top:40px;
+    .cta {
+      margin-top: 40px;
     }
-    .btn{
-      padding:16px 28px;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:500;
-      background:#111;
-      color:#fff;
-      border:1px solid var(--border);
-      cursor:pointer;
-      transition:.2s ease;
+    .btn {
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      background: #111;
+      color: #fff;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: .2s ease;
     }
-    .btn:hover{
-      transform:translateY(-2px);
-      border-color:rgba(255,255,255,.35);
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.35);
     }
     .limited-access {
       margin-top: 12px;
@@ -90,84 +97,85 @@
       font-weight: 400;
       letter-spacing: 0.3px;
     }
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.85);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
       z-index: 10;
     }
-    .modal.active{
-      opacity:1;
-      pointer-events:auto;
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
     }
-    .modal-box{
-      background:var(--card);
-      padding:30px;
-      border-radius:16px;
-      width:90%;
-      max-width:420px;
-      text-align:left;
-      border:1px solid var(--border);
+    .modal-box {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      text-align: left;
+      border: 1px solid var(--border);
     }
-    .modal-box h2{
-      margin-bottom:16px;
-      font-size:20px;
+    .modal-box h2 {
+      margin-bottom: 16px;
+      font-size: 20px;
     }
-    .input{
-      width:100%;
-      padding:12px;
-      margin-bottom:12px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:transparent;
-      color:var(--text);
+    .input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .input:focus{
+    .input:focus {
       outline: none;
       border-color: rgba(59, 130, 246, 0.6);
       box-shadow: var(--focus-glow);
     }
-    .submit{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:var(--text);
-      color:var(--bg);
-      font-weight:600;
-      cursor:pointer;
+    .submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
     }
-    .close{
-      position:absolute;
-      top:20px;
-      right:24px;
-      font-size:20px;
-      cursor:pointer;
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 20px;
+      cursor: pointer;
     }
-    .success{
-      text-align:center;
-      font-size:16px;
-      line-height:1.4;
+    .success {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.4;
       color: #10b981;
     }
-    .error{
+    .error {
       color: #ef4444;
-      margin-top:12px;
-      font-size:14px;
+      margin-top: 12px;
+      font-size: 14px;
     }
-    footer{
-      position:absolute;
-      bottom:16px;
-      width:100%;
-      font-size:12px;
-      color:var(--muted);
+    footer {
+      position: absolute;
+      bottom: 16px;
+      width: 100%;
+      font-size: 12px;
+      color: var(--muted);
       z-index: 1;
     }
   </style>
@@ -179,13 +187,8 @@
     <div class="logo">
       <img src="logo.png" alt="IRL Robotics">
     </div>
-    <h1>
-      Train Robots.<br>
-      Get Paid.
-    </h1>
-    <p class="sub">
-      Real tasks. Real data. Real money.
-    </p>
+    <h1>Train Robots.<br>Get Paid.</h1>
+    <p class="sub">Real tasks. Real data. Real life.</p>
     <div class="cta">
       <button class="btn" onclick="openModal()">Apply for IRL</button>
       <div class="limited-access">Limited early access</div>
@@ -212,24 +215,17 @@
   </footer>
 
   <script>
-    // Subtle free-floating particles – no connections, brighter but dim/low-CPU
+    // Particles – free-floating only
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     let particles = [];
     const particleCount = 40;
     const mouse = { x: null, y: null, radius: 80 };
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-    });
-    window.addEventListener('mouseout', () => {
-      mouse.x = null;
-      mouse.y = null;
-    });
+    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+    window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -248,10 +244,8 @@
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
         if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
         if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-
         if (mouse.x && mouse.y) {
           const dx = this.x - mouse.x;
           const dy = this.y - mouse.y;
@@ -275,29 +269,23 @@
 
     function initParticles() {
       particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
+      for (let i = 0; i < particleCount; i++) particles.push(new Particle());
     }
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      // No connectParticles() call → free-floating only
+      particles.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animate);
     }
 
     initParticles();
     animate();
 
-    // Form + modal logic
+    // Form + modal logic with debug
     const modal = document.getElementById("modal");
     const formBox = document.getElementById("formBox");
     const form = document.getElementById("waitlistForm");
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhdrVNGwbl6PUD2utNZKMuG1pXDzt82f94ex7WzhQWMpzrzOqa9n7kNBP_TvDguMbcng/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
 
     function openModal() { modal.classList.add("active"); }
     function closeModal() { modal.classList.remove("active"); }
@@ -307,6 +295,9 @@
       const formData = new FormData(form);
       try {
         const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+        const text = await response.text();
+        console.log("Submission status:", response.status);
+        console.log("Response body:", text);
         if (response.ok) {
           formBox.innerHTML = `
             <div class="success">
@@ -315,11 +306,11 @@
             </div>
           `;
         } else {
-          throw new Error("Network response was not ok");
+          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
         }
       } catch (err) {
-        formBox.innerHTML += `<p class="error">Something went wrong — please try again or email hey@irl.bot directly.</p>`;
-        console.error(err);
+        console.error("Submission error:", err);
+        formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
       }
     });
 
