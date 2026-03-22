@@ -39,10 +39,14 @@
       width:100%;
       position: relative;
       z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .logo img{
-      width:clamp(140px, 30vw, 260px);
-      margin-bottom:40px;
+      width: clamp(220px, 45vw, 380px); /* much bigger, dominant at top */
+      margin-bottom: 48px; /* more space below logo */
+      display: block;
     }
     h1{
       font-size:clamp(28px, 5vw, 48px);
@@ -54,9 +58,10 @@
       background-clip: text;
       color: transparent;
       display: inline-block;
+      margin-bottom: 16px;
     }
     .sub{
-      margin-top:16px;
+      margin-top:8px;
       font-size:18px;
       color:var(--muted);
     }
@@ -172,7 +177,7 @@
 
   <div class="container">
     <div class="logo">
-      <img src="dlogo.png" alt="IRL Robotics">
+      <img src="logo.png" alt="IRL Robotics">
     </div>
     <h1>
       Train Robots.<br>
@@ -207,7 +212,7 @@
   </footer>
 
   <script>
-    // Subtle + slightly brighter particle system – low CPU, faint cosmic dust
+    // Subtle free-floating particles – no connections, brighter but dim/low-CPU
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -238,7 +243,7 @@
         this.size = Math.random() * 1 + 0.5;
         this.speedX = Math.random() * 0.2 - 0.1;
         this.speedY = Math.random() * 0.2 - 0.1;
-        this.opacity = Math.random() * 0.25 + 0.1; // brighter but still subtle
+        this.opacity = Math.random() * 0.25 + 0.1;
       }
       update() {
         this.x += this.speedX;
@@ -261,28 +266,10 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240, 245, 255, ${this.opacity})`; // brighter pale blue-white
+        ctx.fillStyle = `rgba(240, 245, 255, ${this.opacity})`;
         ctx.shadowBlur = 6;
-        ctx.shadowColor = 'rgba(200, 220, 255, 0.25)'; // slightly more visible glow
+        ctx.shadowColor = 'rgba(200, 220, 255, 0.25)';
         ctx.fill();
-      }
-    }
-
-    function connectParticles() {
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a; b < particles.length; b++) {
-          const dx = particles[a].x - particles[b].x;
-          const dy = particles[a].y - particles[b].y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(particles[b].x, particles[b].y);
-            ctx.strokeStyle = `rgba(200, 220, 255, ${0.12 * (1 - dist/100)})`; // clearer but faint lines
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
       }
     }
 
@@ -299,14 +286,14 @@
         p.update();
         p.draw();
       });
-      connectParticles();
+      // No connectParticles() call → free-floating only
       requestAnimationFrame(animate);
     }
 
     initParticles();
     animate();
 
-    // Form + modal logic unchanged
+    // Form + modal logic
     const modal = document.getElementById("modal");
     const formBox = document.getElementById("formBox");
     const form = document.getElementById("waitlistForm");
