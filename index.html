@@ -13,8 +13,8 @@
       --muted: rgba(255,255,255,.7);
       --border: rgba(255,255,255,.12);
       --separator-glow: rgba(59, 130, 246, 0.15);
-      --modal-bg: #0b0d10; /* solid dark for non-see-through modal */
-      --input-bg: #111; /* solid input background */
+      --modal-bg: #0b0d10;
+      --input-bg: #111;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body {
@@ -57,9 +57,9 @@
       align-items: center;
     }
     .logo img {
-      width: clamp(240px, 50vw, 360px);
+      width: clamp(180px, 40vw, 280px); /* smaller, balanced, centered */
       display: block;
-      margin-bottom: clamp(20px, 5vw, 36px);
+      margin-bottom: clamp(24px, 5vw, 40px); /* tight, balanced gap to separator */
     }
     .separator {
       width: 120px;
@@ -115,7 +115,7 @@
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92); /* darker overlay for solid feel */
+      background: rgba(0,0,0,0.92);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -129,7 +129,7 @@
       pointer-events: auto;
     }
     .modal-box {
-      background: var(--modal-bg); /* solid dark background */
+      background: var(--modal-bg);
       padding: 30px;
       border-radius: 16px;
       width: 90%;
@@ -148,7 +148,7 @@
       margin-bottom: 12px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: var(--input-bg); /* solid background – no see-through */
+      background: var(--input-bg);
       color: var(--text);
       font-size: 16px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -168,9 +168,6 @@
       font-weight: 600;
       cursor: pointer;
       transition: .2s ease;
-    }
-    .submit:hover {
-      background: #e0e0e0;
     }
     .close {
       position: absolute;
