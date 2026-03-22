@@ -8,22 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#050607;
+      --bg:#000000;
       --text:#ffffff;
       --muted:rgba(255,255,255,.7);
       --card:#0b0d10;
       --border:rgba(255,255,255,.15);
       --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.4);
-    }
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg:#f7f7f7;
-        --text:#0a0a0a;
-        --muted:rgba(0,0,0,.6);
-        --card:#ffffff;
-        --border:rgba(0,0,0,.15);
-        --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.35);
-      }
     }
     *{margin:0;padding:0;box-sizing:border-box}
     body{
@@ -31,16 +21,24 @@
       background:var(--bg);
       color:var(--text);
       height:100vh;
+      overflow:hidden;
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      transition:background .3s ease, color .3s ease;
+    }
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
     }
     .container{
       padding:24px;
       max-width:700px;
       width:100%;
+      position: relative;
+      z-index: 1;
     }
     .logo img{
       width:clamp(140px, 30vw, 260px);
@@ -56,11 +54,6 @@
       background-clip: text;
       color: transparent;
       display: inline-block;
-    }
-    @media (prefers-color-scheme: light) {
-      h1 {
-        background: linear-gradient(to bottom, #000000 0%, #333333 40%, #666666 100%);
-      }
     }
     .sub{
       margin-top:16px;
@@ -95,13 +88,14 @@
     .modal{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,.6);
+      background:rgba(0,0,0,.85);
       display:flex;
       align-items:center;
       justify-content:center;
       opacity:0;
       pointer-events:none;
       transition:.25s ease;
+      z-index: 10;
     }
     .modal.active{
       opacity:1;
@@ -169,82 +163,180 @@
       width:100%;
       font-size:12px;
       color:var(--muted);
+      z-index: 1;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="logo">
-    <img src="logo.png" alt="IRL Robotics">
-  </div>
-  <h1>
-    Train Robots.<br>
-    Get Paid.
-  </h1>
-  <p class="sub">
-    Real tasks. Real data. Real money.
-  </p>
-  <div class="cta">
-    <button class="btn" onclick="openModal()">Apply for IRL</button>
-    <div class="limited-access">Limited early access</div>
-  </div>
-</div>
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-box" id="formBox">
-    <div class="close" onclick="closeModal()">×</div>
-    <h2>Join the IRL Waitlist</h2>
-    <form id="waitlistForm" method="POST">
-      <input class="input" name="first" placeholder="First Name" required>
-      <input class="input" name="last" placeholder="Last Name" required>
-      <input class="input" name="email" type="email" placeholder="Email Address" required>
-      <input class="input" name="ref" placeholder="How did you hear about IRL?">
-      <button type="submit" class="submit">Apply</button>
-    </form>
-  </div>
-</div>
-<footer>
-  © <span id="y"></span> IRL Robotics
-</footer>
-<script>
-  const modal = document.getElementById("modal");
-  const formBox = document.getElementById("formBox");
-  const form = document.getElementById("waitlistForm");
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhdrVNGwbl6PUD2utNZKMuG1pXDzt82f94ex7WzhQWMpzrzOqa9n7kNBP_TvDguMbcng/exec";
+  <canvas id="particles-canvas"></canvas>
 
-  function openModal() {
-    modal.classList.add("active");
-  }
+  <div class="container">
+    <div class="logo">
+      <img src="dlogo.png" alt="IRL Robotics">
+    </div>
+    <h1>
+      Train Robots.<br>
+      Get Paid.
+    </h1>
+    <p class="sub">
+      Real tasks. Real data. Real money.
+    </p>
+    <div class="cta">
+      <button class="btn" onclick="openModal()">Apply for IRL</button>
+      <div class="limited-access">Limited early access</div>
+    </div>
+  </div>
 
-  function closeModal() {
-    modal.classList.remove("active");
-  }
+  <!-- MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-box" id="formBox">
+      <div class="close" onclick="closeModal()">×</div>
+      <h2>Join the IRL Waitlist</h2>
+      <form id="waitlistForm" method="POST">
+        <input class="input" name="first" placeholder="First Name" required>
+        <input class="input" name="last" placeholder="Last Name" required>
+        <input class="input" name="email" type="email" placeholder="Email Address" required>
+        <input class="input" name="ref" placeholder="How did you hear about IRL?">
+        <button type="submit" class="submit">Apply</button>
+      </form>
+    </div>
+  </div>
 
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-    const formData = new FormData(form);
-    try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: formData
-      });
-      if (response.ok) {
-        formBox.innerHTML = `
-          <div class="success">
-            <h2>You're in.</h2>
-            <p>Thanks for applying to IRL.<br>We’ll be in touch soon.</p>
-          </div>
-        `;
-      } else {
-        throw new Error("Network response was not ok");
+  <footer>
+    © <span id="y"></span> IRL Robotics
+  </footer>
+
+  <script>
+    // Subtle + slightly brighter particle system – low CPU, faint cosmic dust
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    const particleCount = 40;
+    const mouse = { x: null, y: null, radius: 80 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1 + 0.5;
+        this.speedX = Math.random() * 0.2 - 0.1;
+        this.speedY = Math.random() * 0.2 - 0.1;
+        this.opacity = Math.random() * 0.25 + 0.1; // brighter but still subtle
       }
-    } catch (err) {
-      formBox.innerHTML += `<p class="error">Something went wrong — please try again or email hey@irl.bot directly.</p>`;
-      console.error(err);
-    }
-  });
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
 
-  document.getElementById("y").textContent = new Date().getFullYear();
-</script>
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+        if (mouse.x && mouse.y) {
+          const dx = this.x - mouse.x;
+          const dy = this.y - mouse.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < mouse.radius) {
+            const force = (mouse.radius - dist) / mouse.radius * 0.02;
+            this.x += dx * force;
+            this.y += dy * force;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240, 245, 255, ${this.opacity})`; // brighter pale blue-white
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = 'rgba(200, 220, 255, 0.25)'; // slightly more visible glow
+        ctx.fill();
+      }
+    }
+
+    function connectParticles() {
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+          const dx = particles[a].x - particles[b].x;
+          const dy = particles[a].y - particles[b].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.strokeStyle = `rgba(200, 220, 255, ${0.12 * (1 - dist/100)})`; // clearer but faint lines
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      connectParticles();
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+
+    // Form + modal logic unchanged
+    const modal = document.getElementById("modal");
+    const formBox = document.getElementById("formBox");
+    const form = document.getElementById("waitlistForm");
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhdrVNGwbl6PUD2utNZKMuG1pXDzt82f94ex7WzhQWMpzrzOqa9n7kNBP_TvDguMbcng/exec";
+
+    function openModal() { modal.classList.add("active"); }
+    function closeModal() { modal.classList.remove("active"); }
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+        if (response.ok) {
+          formBox.innerHTML = `
+            <div class="success">
+              <h2>You're in.</h2>
+              <p>Thanks for applying to IRL.<br>We’ll be in touch soon.</p>
+            </div>
+          `;
+        } else {
+          throw new Error("Network response was not ok");
+        }
+      } catch (err) {
+        formBox.innerHTML += `<p class="error">Something went wrong — please try again or email hey@irl.bot directly.</p>`;
+        console.error(err);
+      }
+    });
+
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
