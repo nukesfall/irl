@@ -85,17 +85,11 @@
       color: var(--muted);
       margin-bottom: 32px;
     }
-    .cta-wrap {
+    .cta {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-    .cta {
-      display: flex;
-      flex-direction: row;
       gap: 12px;
-      justify-content: center;
-      width: 100%;
     }
     .btn {
       padding: 16px 32px;
@@ -107,7 +101,6 @@
       border: 1px solid var(--border);
       cursor: pointer;
       transition: .2s ease;
-      white-space: nowrap;
     }
     .btn:hover {
       transform: translateY(-2px);
@@ -116,7 +109,8 @@
     .limited-access {
       font-size: 13px;
       color: var(--muted);
-      margin-top: 12px;
+      font-weight: 400;
+      letter-spacing: 0.3px;
     }
     .modal {
       position: fixed;
@@ -143,15 +137,12 @@
       text-align: left;
       border: 1px solid var(--border);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
     }
     .modal-box h2 {
       margin-bottom: 16px;
       font-size: 20px;
     }
-    .input, textarea.input {
+    .input {
       width: 100%;
       padding: 12px;
       margin-bottom: 12px;
@@ -160,10 +151,12 @@
       background: var(--input-bg);
       color: var(--text);
       font-size: 16px;
-      font-family: Inter, system-ui, sans-serif;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    textarea.input {
-      min-height: 100px;
+    .input:focus {
+      outline: none;
+      border-color: rgba(59, 130, 246, 0.6);
+      box-shadow: var(--focus-glow);
     }
     .submit {
       width: 100%;
@@ -174,6 +167,7 @@
       color: var(--bg);
       font-weight: 600;
       cursor: pointer;
+      transition: .2s ease;
     }
     .close {
       position: absolute;
@@ -182,218 +176,151 @@
       font-size: 20px;
       cursor: pointer;
     }
-    .success { text-align:center; color:#10b981; }
-    .error { color:#ef4444; margin-top:12px; font-size:14px; }
+    .success {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.4;
+      color: #10b981;
+    }
+    .error {
+      color: #ef4444;
+      margin-top: 12px;
+      font-size: 14px;
+    }
     footer {
       position: absolute;
       bottom: 16px;
       width: 100%;
       font-size: 12px;
       color: var(--muted);
-    }
-    @media (max-width: 640px) {
-      .btn {
-        flex: 1;
-        padding: 16px 18px;
-      }
+      z-index: 1;
     }
   </style>
 </head>
 <body>
+  <canvas id="particles-canvas"></canvas>
 
-<canvas id="particles-canvas"></canvas>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="IRL Robotics">
+    </div>
 
-<div class="container">
-  <div class="logo">
-    <img src="logo.png" alt="IRL Robotics">
-  </div>
+    <hr class="separator">
 
-  <hr class="separator">
-
-  <h1>Train Robots.<br>Get Paid.</h1>
-  <p class="sub">In-Real-life.</p>
-
-  <div class="cta-wrap">
+    <h1>Train Robots.<br>Get Paid.</h1>
+    <p class="sub">In-Real-life.</p>
     <div class="cta">
       <button class="btn" onclick="openModal()">Apply for IRL</button>
-      <button class="btn" onclick="openRequestModal()">Request Data</button>
+      <div class="limited-access">Limited early access</div>
     </div>
-    <div class="limited-access">Limited early access</div>
   </div>
-</div>
 
-<div class="modal" id="modal">
-  <div class="modal-box" id="formBox">
-    <div class="close" onclick="closeModal()">×</div>
-    <h2>Join the IRL Waitlist</h2>
-    <form id="waitlistForm" method="POST">
-      <input class="input" name="first" placeholder="First Name" required>
-      <input class="input" name="last" placeholder="Last Name" required>
-      <input class="input" name="email" type="email" placeholder="Email Address" required>
-      <input class="input" name="ref" placeholder="How did you hear about IRL?">
-      <button type="submit" class="submit">Apply</button>
-    </form>
+  <div class="modal" id="modal">
+    <div class="modal-box" id="formBox">
+      <div class="close" onclick="closeModal()">×</div>
+      <h2>Join the IRL Waitlist</h2>
+      <form id="waitlistForm" method="POST">
+        <input class="input" name="first" placeholder="First Name" required>
+        <input class="input" name="last" placeholder="Last Name" required>
+        <input class="input" name="email" type="email" placeholder="Email Address" required>
+        <input class="input" name="ref" placeholder="How did you hear about IRL?">
+        <button type="submit" class="submit">Apply</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="requestModal">
-  <div class="modal-box" id="requestFormBox">
-    <div class="close" onclick="closeRequestModal()">×</div>
-    <h2>Request Data</h2>
-    <form id="requestDataForm" method="POST">
-      <input class="input" name="first_name" placeholder="First Name" required>
-      <input class="input" name="last_name" placeholder="Last Name" required>
-      <input class="input" name="how_heard" placeholder="How did you hear about IRL?" required>
-      <textarea class="input" name="type_of_data" placeholder="Kind of data you need" required></textarea>
-      <input class="input" name="data_preference" placeholder="How would you like it delivered?" required>
-      <input class="input" name="email" type="email" placeholder="Email for contact" required>
-      <button type="submit" class="submit">Submit Request</button>
-    </form>
-  </div>
-</div>
+  <footer>
+    © <span id="y"></span> IRL™ Robotics
+  </footer>
 
-<footer>
-  © <span id="y"></span> IRL™ Robotics
-</footer>
+  <script>
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particles = [];
+    const particleCount = 40;
 
-<script>
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let particles = [];
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initParticles();
-});
-
-class Particle {
-  constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1 + 0.5;
-    this.speedX = Math.random() * 0.2 - 0.1;
-    this.speedY = Math.random() * 0.2 - 0.1;
-    this.opacity = Math.random() * 0.28 + 0.12;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(245,248,255,${this.opacity})`;
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = 'rgba(210,230,255,0.3)';
-    ctx.fill();
-  }
-}
-
-function initParticles() {
-  particles = [];
-  for (let i = 0; i < 40; i++) particles.push(new Particle());
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.update();
-    p.draw();
-  });
-  requestAnimationFrame(animate);
-}
-
-initParticles();
-animate();
-
-const modal = document.getElementById("modal");
-const requestModal = document.getElementById("requestModal");
-const formBox = document.getElementById("formBox");
-const requestFormBox = document.getElementById("requestFormBox");
-const waitlistForm = document.getElementById("waitlistForm");
-const requestDataForm = document.getElementById("requestDataForm");
-
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
-const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaWsIHPHLQe1WU2eAgXlsNBZ0rK8zRhXOTi5_PnILOGdV1XuT3CpB2KeCfMXMvNwE/exec";
-
-function openModal() { modal.classList.add("active"); }
-function closeModal() { modal.classList.remove("active"); }
-function openRequestModal() { requestModal.classList.add("active"); }
-function closeRequestModal() { requestModal.classList.remove("active"); }
-
-waitlistForm.addEventListener("submit", async function(e) {
-  e.preventDefault();
-  const formData = new FormData(waitlistForm);
-
-  try {
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: formData
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
     });
 
-    const text = await response.text();
-    console.log("Waitlist submission status:", response.status);
-    console.log("Waitlist response body:", text);
-
-    if (response.ok) {
-      formBox.innerHTML = `
-        <div class="success">
-          <h2>Application Submitted.</h2>
-        </div>
-      `;
-    } else {
-      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 1 + 0.5;
+        this.speedX = Math.random() * 0.2 - 0.1;
+        this.speedY = Math.random() * 0.2 - 0.1;
+        this.opacity = Math.random() * 0.25 + 0.1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240, 245, 255, ${this.opacity})`;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = 'rgba(200, 220, 255, 0.25)';
+        ctx.fill();
+      }
     }
-  } catch (err) {
-    console.error("Waitlist submission error:", err);
-    formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
-  }
-});
 
-requestDataForm.addEventListener("submit", async function(e) {
-  e.preventDefault();
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+    }
 
-  const formData = new FormData();
-  formData.append("timestamp", new Date().toISOString());
-  formData.append("first name", requestDataForm.elements["first_name"].value);
-  formData.append("last name", requestDataForm.elements["last_name"].value);
-  formData.append("how heard", requestDataForm.elements["how_heard"].value);
-  formData.append("type of data", requestDataForm.elements["type_of_data"].value);
-  formData.append("data preference", requestDataForm.elements["data_preference"].value);
-  formData.append("email", requestDataForm.elements["email"].value);
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
 
-  try {
-    const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
-      method: "POST",
-      body: formData
+    initParticles();
+    animate();
+
+    const modal = document.getElementById("modal");
+    const formBox = document.getElementById("formBox");
+    const form = document.getElementById("waitlistForm");
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
+
+    function openModal() { modal.classList.add("active"); }
+    function closeModal() { modal.classList.remove("active"); }
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+        const text = await response.text();
+        console.log("Submission status:", response.status);
+        console.log("Response body:", text);
+        if (response.ok) {
+          formBox.innerHTML = `
+            <div class="success">
+              <h2>Application Submitted.</h2>
+            </div>
+          `;
+        } else {
+          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+        }
+      } catch (err) {
+        console.error("Submission error:", err);
+        formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
+      }
     });
 
-    const text = await response.text();
-    console.log("Request Data status:", response.status);
-    console.log("Request Data response:", text);
-
-    if (response.ok) {
-      requestFormBox.innerHTML = `
-        <div class="success">
-          <h2>Request Submitted.</h2>
-        </div>
-      `;
-    } else {
-      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
-    }
-  } catch (err) {
-    console.error("Request Data submission error:", err);
-    requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
-  }
-});
-
-document.getElementById("y").textContent = new Date().getFullYear();
-</script>
-
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
