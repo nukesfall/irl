@@ -183,7 +183,7 @@
       cursor: pointer;
     }
     .success { text-align:center; color:#10b981; }
-    .error { color:#ef4444; margin-top:12px; }
+    .error { color:#ef4444; margin-top:12px; font-size:14px; }
     footer {
       position: absolute;
       bottom: 16px;
@@ -226,7 +226,7 @@
   <div class="modal-box" id="formBox">
     <div class="close" onclick="closeModal()">×</div>
     <h2>Join the IRL Waitlist</h2>
-    <form id="waitlistForm">
+    <form id="waitlistForm" method="POST">
       <input class="input" name="first" placeholder="First Name" required>
       <input class="input" name="last" placeholder="Last Name" required>
       <input class="input" name="email" type="email" placeholder="Email Address" required>
@@ -240,7 +240,7 @@
   <div class="modal-box" id="requestFormBox">
     <div class="close" onclick="closeRequestModal()">×</div>
     <h2>Request Data</h2>
-    <form id="requestDataForm">
+    <form id="requestDataForm" method="POST">
       <input class="input" name="first_name" placeholder="First Name" required>
       <input class="input" name="last_name" placeholder="Last Name" required>
       <input class="input" name="how_heard" placeholder="How did you hear about IRL?" required>
@@ -263,49 +263,136 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let particles = [];
 
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initParticles();
+});
+
 class Particle {
   constructor() {
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*1 + 0.5;
-    this.speedX = Math.random()*0.2 - 0.1;
-    this.speedY = Math.random()*0.2 - 0.1;
-    this.opacity = Math.random()*0.28 + 0.12;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1 + 0.5;
+    this.speedX = Math.random() * 0.2 - 0.1;
+    this.speedY = Math.random() * 0.2 - 0.1;
+    this.opacity = Math.random() * 0.28 + 0.12;
   }
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
   }
   draw() {
     ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fillStyle=`rgba(245,248,255,${this.opacity})`;
-    ctx.shadowBlur=8;
-    ctx.shadowColor='rgba(210,230,255,0.3)';
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(245,248,255,${this.opacity})`;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = 'rgba(210,230,255,0.3)';
     ctx.fill();
   }
 }
 
-function initParticles(){
-  particles=[];
-  for(let i=0;i<40;i++)particles.push(new Particle());
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < 40; i++) particles.push(new Particle());
 }
-function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{p.update();p.draw();});
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
   requestAnimationFrame(animate);
 }
-initParticles();animate();
+
+initParticles();
+animate();
 
 const modal = document.getElementById("modal");
 const requestModal = document.getElementById("requestModal");
+const formBox = document.getElementById("formBox");
+const requestFormBox = document.getElementById("requestFormBox");
+const waitlistForm = document.getElementById("waitlistForm");
+const requestDataForm = document.getElementById("requestDataForm");
 
-function openModal(){modal.classList.add("active")}
-function closeModal(){modal.classList.remove("active")}
-function openRequestModal(){requestModal.classList.add("active")}
-function closeRequestModal(){requestModal.classList.remove("active")}
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
+const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaWsIHPHLQe1WU2eAgXlsNBZ0rK8zRhXOTi5_PnILOGdV1XuT3CpB2KeCfMXMvNwE/exec";
 
-document.getElementById("y").textContent=new Date().getFullYear();
+function openModal() { modal.classList.add("active"); }
+function closeModal() { modal.classList.remove("active"); }
+function openRequestModal() { requestModal.classList.add("active"); }
+function closeRequestModal() { requestModal.classList.remove("active"); }
+
+waitlistForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const formData = new FormData(waitlistForm);
+
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await response.text();
+    console.log("Waitlist submission status:", response.status);
+    console.log("Waitlist response body:", text);
+
+    if (response.ok) {
+      formBox.innerHTML = `
+        <div class="success">
+          <h2>Application Submitted.</h2>
+        </div>
+      `;
+    } else {
+      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+    }
+  } catch (err) {
+    console.error("Waitlist submission error:", err);
+    formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
+  }
+});
+
+requestDataForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("timestamp", new Date().toISOString());
+  formData.append("first name", requestDataForm.elements["first_name"].value);
+  formData.append("last name", requestDataForm.elements["last_name"].value);
+  formData.append("how heard", requestDataForm.elements["how_heard"].value);
+  formData.append("type of data", requestDataForm.elements["type_of_data"].value);
+  formData.append("data preference", requestDataForm.elements["data_preference"].value);
+  formData.append("email", requestDataForm.elements["email"].value);
+
+  try {
+    const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await response.text();
+    console.log("Request Data status:", response.status);
+    console.log("Request Data response:", text);
+
+    if (response.ok) {
+      requestFormBox.innerHTML = `
+        <div class="success">
+          <h2>Request Submitted.</h2>
+        </div>
+      `;
+    } else {
+      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+    }
+  } catch (err) {
+    console.error("Request Data submission error:", err);
+    requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
+  }
+});
+
+document.getElementById("y").textContent = new Date().getFullYear();
 </script>
 
 </body>
