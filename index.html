@@ -33,6 +33,7 @@
       --h-pixel: 6px;
       --h-blue: #1694e7;
       --h-red: #fc1052;
+      --h-gap: 150px;
     }
 
     * {
@@ -180,9 +181,8 @@
       text-decoration: underline;
     }
 
-    /* Independent hands layer */
     .h-widget {
-      position: fixed;
+      position: absolute;
       left: 50%;
       top: 0;
       transform: translateX(-50%);
@@ -207,7 +207,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: calc(var(--h-pixel) * 25);
+      gap: var(--h-gap);
     }
 
     .h-hand {
@@ -215,6 +215,7 @@
       width: calc(var(--h-pixel) * 10);
       height: calc(var(--h-pixel) * 16);
       animation: h-breathe 2.4s ease-in-out infinite;
+      flex: 0 0 auto;
     }
 
     .h-hand.right {
@@ -265,6 +266,8 @@
       line-height: 1.4;
       color: var(--subtext);
       margin-top: 0;
+      position: relative;
+      z-index: 1;
     }
 
     .modal {
@@ -408,21 +411,18 @@
 
       :root {
         --h-pixel: 4px;
+        --h-gap: 150px;
       }
 
       .h-widget {
-        width: min(220px, 68vw);
+        width: min(320px, 100vw);
         height: min(92px, 28vw);
-        min-width: 140px;
+        min-width: 220px;
         min-height: 64px;
       }
 
-      .h-hands {
-        gap: calc(var(--h-pixel) * 23);
-      }
-
       .h-scan {
-        width: min(132px, 44vw);
+        width: min(190px, 60vw);
       }
 
       @keyframes h-scan {
@@ -463,113 +463,33 @@
     <div class="h-widget-inner">
       <div class="h-hands">
         <div class="h-hand left">
-          <div class="h-px" style="left:10px; top:60px;"></div>
-          <div class="h-px" style="left:10px; top:70px;"></div>
-          <div class="h-px" style="left:10px; top:80px;"></div>
-          <div class="h-px" style="left:25px; top:50px;"></div>
-          <div class="h-px" style="left:25px; top:60px;"></div>
-          <div class="h-px" style="left:25px; top:70px;"></div>
-          <div class="h-px" style="left:25px; top:80px;"></div>
-          <div class="h-px" style="left:40px; top:45px;"></div>
-          <div class="h-px" style="left:40px; top:55px;"></div>
-          <div class="h-px" style="left:40px; top:65px;"></div>
-          <div class="h-px" style="left:40px; top:75px;"></div>
-          <div class="h-px" style="left:40px; top:85px;"></div>
-          <div class="h-px" style="left:55px; top:50px;"></div>
-          <div class="h-px" style="left:55px; top:60px;"></div>
-          <div class="h-px" style="left:55px; top:70px;"></div>
-          <div class="h-px" style="left:55px; top:80px;"></div>
-          <div class="h-px" style="left:10px; top:90px;"></div>
-          <div class="h-px" style="left:20px; top:90px;"></div>
-          <div class="h-px" style="left:30px; top:90px;"></div>
-          <div class="h-px" style="left:40px; top:90px;"></div>
-          <div class="h-px" style="left:50px; top:90px;"></div>
-          <div class="h-px" style="left:60px; top:90px;"></div>
-          <div class="h-px" style="left:10px; top:100px;"></div>
-          <div class="h-px" style="left:20px; top:100px;"></div>
-          <div class="h-px" style="left:30px; top:100px;"></div>
-          <div class="h-px" style="left:40px; top:100px;"></div>
-          <div class="h-px" style="left:50px; top:100px;"></div>
-          <div class="h-px" style="left:60px; top:100px;"></div>
-          <div class="h-px" style="left:10px; top:110px;"></div>
-          <div class="h-px" style="left:20px; top:110px;"></div>
-          <div class="h-px" style="left:30px; top:110px;"></div>
-          <div class="h-px" style="left:40px; top:110px;"></div>
-          <div class="h-px" style="left:50px; top:110px;"></div>
-          <div class="h-px" style="left:60px; top:110px;"></div>
-          <div class="h-px" style="left:20px; top:120px;"></div>
-          <div class="h-px" style="left:30px; top:120px;"></div>
-          <div class="h-px" style="left:40px; top:120px;"></div>
-          <div class="h-px" style="left:50px; top:120px;"></div>
-          <div class="h-px" style="left:60px; top:118px;"></div>
-          <div class="h-px" style="left:70px; top:112px;"></div>
-          <div class="h-px" style="left:80px; top:106px;"></div>
-          <div class="h-px" style="left:90px; top:100px;"></div>
-          <div class="h-px" style="left:25px; top:130px;"></div>
-          <div class="h-px" style="left:35px; top:130px;"></div>
-          <div class="h-px" style="left:45px; top:130px;"></div>
-          <div class="h-px h-blue" style="left:20px; top:140px;"></div>
-          <div class="h-px h-blue" style="left:30px; top:140px;"></div>
-          <div class="h-px h-blue" style="left:40px; top:140px;"></div>
-          <div class="h-px h-blue" style="left:50px; top:140px;"></div>
-          <div class="h-px" style="left:25px; top:150px;"></div>
-          <div class="h-px" style="left:35px; top:150px;"></div>
-          <div class="h-px" style="left:45px; top:150px;"></div>
+          <div class="h-px" style="left:10px; top:60px;"></div><div class="h-px" style="left:10px; top:70px;"></div><div class="h-px" style="left:10px; top:80px;"></div>
+          <div class="h-px" style="left:25px; top:50px;"></div><div class="h-px" style="left:25px; top:60px;"></div><div class="h-px" style="left:25px; top:70px;"></div><div class="h-px" style="left:25px; top:80px;"></div>
+          <div class="h-px" style="left:40px; top:45px;"></div><div class="h-px" style="left:40px; top:55px;"></div><div class="h-px" style="left:40px; top:65px;"></div><div class="h-px" style="left:40px; top:75px;"></div><div class="h-px" style="left:40px; top:85px;"></div>
+          <div class="h-px" style="left:55px; top:50px;"></div><div class="h-px" style="left:55px; top:60px;"></div><div class="h-px" style="left:55px; top:70px;"></div><div class="h-px" style="left:55px; top:80px;"></div>
+          <div class="h-px" style="left:10px; top:90px;"></div><div class="h-px" style="left:20px; top:90px;"></div><div class="h-px" style="left:30px; top:90px;"></div><div class="h-px" style="left:40px; top:90px;"></div><div class="h-px" style="left:50px; top:90px;"></div><div class="h-px" style="left:60px; top:90px;"></div>
+          <div class="h-px" style="left:10px; top:100px;"></div><div class="h-px" style="left:20px; top:100px;"></div><div class="h-px" style="left:30px; top:100px;"></div><div class="h-px" style="left:40px; top:100px;"></div><div class="h-px" style="left:50px; top:100px;"></div><div class="h-px" style="left:60px; top:100px;"></div>
+          <div class="h-px" style="left:10px; top:110px;"></div><div class="h-px" style="left:20px; top:110px;"></div><div class="h-px" style="left:30px; top:110px;"></div><div class="h-px" style="left:40px; top:110px;"></div><div class="h-px" style="left:50px; top:110px;"></div><div class="h-px" style="left:60px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:120px;"></div><div class="h-px" style="left:30px; top:120px;"></div><div class="h-px" style="left:40px; top:120px;"></div><div class="h-px" style="left:50px; top:120px;"></div>
+          <div class="h-px" style="left:60px; top:118px;"></div><div class="h-px" style="left:70px; top:112px;"></div><div class="h-px" style="left:80px; top:106px;"></div><div class="h-px" style="left:90px; top:100px;"></div>
+          <div class="h-px" style="left:25px; top:130px;"></div><div class="h-px" style="left:35px; top:130px;"></div><div class="h-px" style="left:45px; top:130px;"></div>
+          <div class="h-px h-blue" style="left:20px; top:140px;"></div><div class="h-px h-blue" style="left:30px; top:140px;"></div><div class="h-px h-blue" style="left:40px; top:140px;"></div><div class="h-px h-blue" style="left:50px; top:140px;"></div>
+          <div class="h-px" style="left:25px; top:150px;"></div><div class="h-px" style="left:35px; top:150px;"></div><div class="h-px" style="left:45px; top:150px;"></div>
         </div>
 
         <div class="h-hand right">
-          <div class="h-px" style="left:10px; top:60px;"></div>
-          <div class="h-px" style="left:10px; top:70px;"></div>
-          <div class="h-px" style="left:10px; top:80px;"></div>
-          <div class="h-px" style="left:25px; top:50px;"></div>
-          <div class="h-px" style="left:25px; top:60px;"></div>
-          <div class="h-px" style="left:25px; top:70px;"></div>
-          <div class="h-px" style="left:25px; top:80px;"></div>
-          <div class="h-px" style="left:40px; top:45px;"></div>
-          <div class="h-px" style="left:40px; top:55px;"></div>
-          <div class="h-px" style="left:40px; top:65px;"></div>
-          <div class="h-px" style="left:40px; top:75px;"></div>
-          <div class="h-px" style="left:40px; top:85px;"></div>
-          <div class="h-px" style="left:55px; top:50px;"></div>
-          <div class="h-px" style="left:55px; top:60px;"></div>
-          <div class="h-px" style="left:55px; top:70px;"></div>
-          <div class="h-px" style="left:55px; top:80px;"></div>
-          <div class="h-px" style="left:10px; top:90px;"></div>
-          <div class="h-px" style="left:20px; top:90px;"></div>
-          <div class="h-px" style="left:30px; top:90px;"></div>
-          <div class="h-px" style="left:40px; top:90px;"></div>
-          <div class="h-px" style="left:50px; top:90px;"></div>
-          <div class="h-px" style="left:60px; top:90px;"></div>
-          <div class="h-px" style="left:10px; top:100px;"></div>
-          <div class="h-px" style="left:20px; top:100px;"></div>
-          <div class="h-px" style="left:30px; top:100px;"></div>
-          <div class="h-px" style="left:40px; top:100px;"></div>
-          <div class="h-px" style="left:50px; top:100px;"></div>
-          <div class="h-px" style="left:60px; top:100px;"></div>
-          <div class="h-px" style="left:10px; top:110px;"></div>
-          <div class="h-px" style="left:20px; top:110px;"></div>
-          <div class="h-px" style="left:30px; top:110px;"></div>
-          <div class="h-px" style="left:40px; top:110px;"></div>
-          <div class="h-px" style="left:50px; top:110px;"></div>
-          <div class="h-px" style="left:60px; top:110px;"></div>
-          <div class="h-px" style="left:20px; top:120px;"></div>
-          <div class="h-px" style="left:30px; top:120px;"></div>
-          <div class="h-px" style="left:40px; top:120px;"></div>
-          <div class="h-px" style="left:50px; top:120px;"></div>
-          <div class="h-px" style="left:60px; top:118px;"></div>
-          <div class="h-px" style="left:70px; top:112px;"></div>
-          <div class="h-px" style="left:80px; top:106px;"></div>
-          <div class="h-px" style="left:90px; top:100px;"></div>
-          <div class="h-px" style="left:25px; top:130px;"></div>
-          <div class="h-px" style="left:35px; top:130px;"></div>
-          <div class="h-px" style="left:45px; top:130px;"></div>
-          <div class="h-px h-red" style="left:20px; top:140px;"></div>
-          <div class="h-px h-red" style="left:30px; top:140px;"></div>
-          <div class="h-px h-red" style="left:40px; top:140px;"></div>
-          <div class="h-px h-red" style="left:50px; top:140px;"></div>
-          <div class="h-px" style="left:25px; top:150px;"></div>
-          <div class="h-px" style="left:35px; top:150px;"></div>
-          <div class="h-px" style="left:45px; top:150px;"></div>
+          <div class="h-px" style="left:10px; top:60px;"></div><div class="h-px" style="left:10px; top:70px;"></div><div class="h-px" style="left:10px; top:80px;"></div>
+          <div class="h-px" style="left:25px; top:50px;"></div><div class="h-px" style="left:25px; top:60px;"></div><div class="h-px" style="left:25px; top:70px;"></div><div class="h-px" style="left:25px; top:80px;"></div>
+          <div class="h-px" style="left:40px; top:45px;"></div><div class="h-px" style="left:40px; top:55px;"></div><div class="h-px" style="left:40px; top:65px;"></div><div class="h-px" style="left:40px; top:75px;"></div><div class="h-px" style="left:40px; top:85px;"></div>
+          <div class="h-px" style="left:55px; top:50px;"></div><div class="h-px" style="left:55px; top:60px;"></div><div class="h-px" style="left:55px; top:70px;"></div><div class="h-px" style="left:55px; top:80px;"></div>
+          <div class="h-px" style="left:10px; top:90px;"></div><div class="h-px" style="left:20px; top:90px;"></div><div class="h-px" style="left:30px; top:90px;"></div><div class="h-px" style="left:40px; top:90px;"></div><div class="h-px" style="left:50px; top:90px;"></div><div class="h-px" style="left:60px; top:90px;"></div>
+          <div class="h-px" style="left:10px; top:100px;"></div><div class="h-px" style="left:20px; top:100px;"></div><div class="h-px" style="left:30px; top:100px;"></div><div class="h-px" style="left:40px; top:100px;"></div><div class="h-px" style="left:50px; top:100px;"></div><div class="h-px" style="left:60px; top:100px;"></div>
+          <div class="h-px" style="left:10px; top:110px;"></div><div class="h-px" style="left:20px; top:110px;"></div><div class="h-px" style="left:30px; top:110px;"></div><div class="h-px" style="left:40px; top:110px;"></div><div class="h-px" style="left:50px; top:110px;"></div><div class="h-px" style="left:60px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:120px;"></div><div class="h-px" style="left:30px; top:120px;"></div><div class="h-px" style="left:40px; top:120px;"></div><div class="h-px" style="left:50px; top:120px;"></div>
+          <div class="h-px" style="left:60px; top:118px;"></div><div class="h-px" style="left:70px; top:112px;"></div><div class="h-px" style="left:80px; top:106px;"></div><div class="h-px" style="left:90px; top:100px;"></div>
+          <div class="h-px" style="left:25px; top:130px;"></div><div class="h-px" style="left:35px; top:130px;"></div><div class="h-px" style="left:45px; top:130px;"></div>
+          <div class="h-px h-red" style="left:20px; top:140px;"></div><div class="h-px h-red" style="left:30px; top:140px;"></div><div class="h-px h-red" style="left:40px; top:140px;"></div><div class="h-px h-red" style="left:50px; top:140px;"></div>
+          <div class="h-px" style="left:25px; top:150px;"></div><div class="h-px" style="left:35px; top:150px;"></div><div class="h-px" style="left:45px; top:150px;"></div>
         </div>
       </div>
 
@@ -736,12 +656,12 @@
 
       const contactRect = contactAnchor.getBoundingClientRect();
       const footerRect = siteFooter.getBoundingClientRect();
-      const widgetRect = handsWidget.getBoundingClientRect();
+      const widgetHeight = handsWidget.offsetHeight;
 
-      const spaceTop = contactRect.bottom;
-      const spaceBottom = footerRect.top;
+      const spaceTop = contactRect.bottom + window.scrollY;
+      const spaceBottom = footerRect.top + window.scrollY;
       const midpoint = (spaceTop + spaceBottom) / 2;
-      const top = midpoint - (widgetRect.height / 2);
+      const top = midpoint - (widgetHeight / 2);
 
       handsWidget.style.top = Math.max(spaceTop, top) + "px";
     }
@@ -756,6 +676,7 @@
 
     window.addEventListener("load", positionHands);
     window.addEventListener("resize", positionHands);
+    window.addEventListener("scroll", positionHands, { passive: true });
 
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(positionHands);
