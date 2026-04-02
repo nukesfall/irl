@@ -28,6 +28,11 @@
       --button-bg: #000000;
       --button-text: #e6e6e6;
       --hero-size: clamp(2.6rem, 6vw, 5.4rem);
+
+      --h-ink: #000000;
+      --h-pixel: 6px;
+      --h-blue: #1694e7;
+      --h-red: #fc1052;
     }
 
     * {
@@ -71,6 +76,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .page {
@@ -174,12 +180,91 @@
       text-decoration: underline;
     }
 
+    /* Independent hands layer */
+    .h-widget {
+      position: fixed;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: min(320px, 74vw);
+      height: min(120px, 30vw);
+      min-width: 200px;
+      min-height: 84px;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 1;
+    }
+
+    .h-widget-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .h-hands {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--h-pixel) * 25);
+    }
+
+    .h-hand {
+      position: relative;
+      width: calc(var(--h-pixel) * 10);
+      height: calc(var(--h-pixel) * 16);
+      animation: h-breathe 2.4s ease-in-out infinite;
+    }
+
+    .h-hand.right {
+      transform: scaleX(-1);
+    }
+
+    .h-hand.left { --h-flip: 1; }
+    .h-hand.right { --h-flip: -1; }
+
+    .h-px {
+      position: absolute;
+      width: var(--h-pixel);
+      height: var(--h-pixel);
+      background: var(--h-ink);
+    }
+
+    .h-blue { background: var(--h-blue); }
+    .h-red { background: var(--h-red); }
+
+    .h-scan {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(190px, 50vw);
+      height: 2px;
+      background: #000000;
+      opacity: 0.08;
+      transform: translate(-50%, -50%);
+      animation: h-scan 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes h-breathe {
+      0%   { transform: translateY(0px) scaleX(var(--h-flip, 1)); }
+      50%  { transform: translateY(-4px) scaleX(var(--h-flip, 1)); }
+      100% { transform: translateY(0px) scaleX(var(--h-flip, 1)); }
+    }
+
+    @keyframes h-scan {
+      0%   { transform: translate(-50%, -50%) translateY(-26px); }
+      100% { transform: translate(-50%, -50%) translateY(26px); }
+    }
+
     footer {
       padding: 24px 20px 28px;
       text-align: center;
       font-size: 0.9rem;
       line-height: 1.4;
       color: var(--subtext);
+      margin-top: 0;
     }
 
     .modal {
@@ -320,6 +405,30 @@
       .modal-box {
         padding: 20px;
       }
+
+      :root {
+        --h-pixel: 4px;
+      }
+
+      .h-widget {
+        width: min(220px, 68vw);
+        height: min(92px, 28vw);
+        min-width: 140px;
+        min-height: 64px;
+      }
+
+      .h-hands {
+        gap: calc(var(--h-pixel) * 23);
+      }
+
+      .h-scan {
+        width: min(132px, 44vw);
+      }
+
+      @keyframes h-scan {
+        0%   { transform: translate(-50%, -50%) translateY(-20px); }
+        100% { transform: translate(-50%, -50%) translateY(20px); }
+      }
     }
   </style>
 </head>
@@ -329,7 +438,7 @@
       <div class="brand">
         <img
           class="brand-logo"
-          src="alt_logo.png"
+          src="https://www.irl.bot/alt_logo.png"
           alt="IRL logo"
         />
         <h1>irl</h1>
@@ -344,13 +453,131 @@
         <button class="button" type="button" onclick="openModal()">EARN MONEY</button>
       </div>
 
-      <div class="contact">
+      <div class="contact" id="contactAnchor">
         <a href="mailto:contact@irl.bot">CONTACT</a>
       </div>
     </section>
   </main>
 
-  <footer>
+  <section class="h-widget" id="handsWidget" aria-hidden="true">
+    <div class="h-widget-inner">
+      <div class="h-hands">
+        <div class="h-hand left">
+          <div class="h-px" style="left:10px; top:60px;"></div>
+          <div class="h-px" style="left:10px; top:70px;"></div>
+          <div class="h-px" style="left:10px; top:80px;"></div>
+          <div class="h-px" style="left:25px; top:50px;"></div>
+          <div class="h-px" style="left:25px; top:60px;"></div>
+          <div class="h-px" style="left:25px; top:70px;"></div>
+          <div class="h-px" style="left:25px; top:80px;"></div>
+          <div class="h-px" style="left:40px; top:45px;"></div>
+          <div class="h-px" style="left:40px; top:55px;"></div>
+          <div class="h-px" style="left:40px; top:65px;"></div>
+          <div class="h-px" style="left:40px; top:75px;"></div>
+          <div class="h-px" style="left:40px; top:85px;"></div>
+          <div class="h-px" style="left:55px; top:50px;"></div>
+          <div class="h-px" style="left:55px; top:60px;"></div>
+          <div class="h-px" style="left:55px; top:70px;"></div>
+          <div class="h-px" style="left:55px; top:80px;"></div>
+          <div class="h-px" style="left:10px; top:90px;"></div>
+          <div class="h-px" style="left:20px; top:90px;"></div>
+          <div class="h-px" style="left:30px; top:90px;"></div>
+          <div class="h-px" style="left:40px; top:90px;"></div>
+          <div class="h-px" style="left:50px; top:90px;"></div>
+          <div class="h-px" style="left:60px; top:90px;"></div>
+          <div class="h-px" style="left:10px; top:100px;"></div>
+          <div class="h-px" style="left:20px; top:100px;"></div>
+          <div class="h-px" style="left:30px; top:100px;"></div>
+          <div class="h-px" style="left:40px; top:100px;"></div>
+          <div class="h-px" style="left:50px; top:100px;"></div>
+          <div class="h-px" style="left:60px; top:100px;"></div>
+          <div class="h-px" style="left:10px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:110px;"></div>
+          <div class="h-px" style="left:30px; top:110px;"></div>
+          <div class="h-px" style="left:40px; top:110px;"></div>
+          <div class="h-px" style="left:50px; top:110px;"></div>
+          <div class="h-px" style="left:60px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:120px;"></div>
+          <div class="h-px" style="left:30px; top:120px;"></div>
+          <div class="h-px" style="left:40px; top:120px;"></div>
+          <div class="h-px" style="left:50px; top:120px;"></div>
+          <div class="h-px" style="left:60px; top:118px;"></div>
+          <div class="h-px" style="left:70px; top:112px;"></div>
+          <div class="h-px" style="left:80px; top:106px;"></div>
+          <div class="h-px" style="left:90px; top:100px;"></div>
+          <div class="h-px" style="left:25px; top:130px;"></div>
+          <div class="h-px" style="left:35px; top:130px;"></div>
+          <div class="h-px" style="left:45px; top:130px;"></div>
+          <div class="h-px h-blue" style="left:20px; top:140px;"></div>
+          <div class="h-px h-blue" style="left:30px; top:140px;"></div>
+          <div class="h-px h-blue" style="left:40px; top:140px;"></div>
+          <div class="h-px h-blue" style="left:50px; top:140px;"></div>
+          <div class="h-px" style="left:25px; top:150px;"></div>
+          <div class="h-px" style="left:35px; top:150px;"></div>
+          <div class="h-px" style="left:45px; top:150px;"></div>
+        </div>
+
+        <div class="h-hand right">
+          <div class="h-px" style="left:10px; top:60px;"></div>
+          <div class="h-px" style="left:10px; top:70px;"></div>
+          <div class="h-px" style="left:10px; top:80px;"></div>
+          <div class="h-px" style="left:25px; top:50px;"></div>
+          <div class="h-px" style="left:25px; top:60px;"></div>
+          <div class="h-px" style="left:25px; top:70px;"></div>
+          <div class="h-px" style="left:25px; top:80px;"></div>
+          <div class="h-px" style="left:40px; top:45px;"></div>
+          <div class="h-px" style="left:40px; top:55px;"></div>
+          <div class="h-px" style="left:40px; top:65px;"></div>
+          <div class="h-px" style="left:40px; top:75px;"></div>
+          <div class="h-px" style="left:40px; top:85px;"></div>
+          <div class="h-px" style="left:55px; top:50px;"></div>
+          <div class="h-px" style="left:55px; top:60px;"></div>
+          <div class="h-px" style="left:55px; top:70px;"></div>
+          <div class="h-px" style="left:55px; top:80px;"></div>
+          <div class="h-px" style="left:10px; top:90px;"></div>
+          <div class="h-px" style="left:20px; top:90px;"></div>
+          <div class="h-px" style="left:30px; top:90px;"></div>
+          <div class="h-px" style="left:40px; top:90px;"></div>
+          <div class="h-px" style="left:50px; top:90px;"></div>
+          <div class="h-px" style="left:60px; top:90px;"></div>
+          <div class="h-px" style="left:10px; top:100px;"></div>
+          <div class="h-px" style="left:20px; top:100px;"></div>
+          <div class="h-px" style="left:30px; top:100px;"></div>
+          <div class="h-px" style="left:40px; top:100px;"></div>
+          <div class="h-px" style="left:50px; top:100px;"></div>
+          <div class="h-px" style="left:60px; top:100px;"></div>
+          <div class="h-px" style="left:10px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:110px;"></div>
+          <div class="h-px" style="left:30px; top:110px;"></div>
+          <div class="h-px" style="left:40px; top:110px;"></div>
+          <div class="h-px" style="left:50px; top:110px;"></div>
+          <div class="h-px" style="left:60px; top:110px;"></div>
+          <div class="h-px" style="left:20px; top:120px;"></div>
+          <div class="h-px" style="left:30px; top:120px;"></div>
+          <div class="h-px" style="left:40px; top:120px;"></div>
+          <div class="h-px" style="left:50px; top:120px;"></div>
+          <div class="h-px" style="left:60px; top:118px;"></div>
+          <div class="h-px" style="left:70px; top:112px;"></div>
+          <div class="h-px" style="left:80px; top:106px;"></div>
+          <div class="h-px" style="left:90px; top:100px;"></div>
+          <div class="h-px" style="left:25px; top:130px;"></div>
+          <div class="h-px" style="left:35px; top:130px;"></div>
+          <div class="h-px" style="left:45px; top:130px;"></div>
+          <div class="h-px h-red" style="left:20px; top:140px;"></div>
+          <div class="h-px h-red" style="left:30px; top:140px;"></div>
+          <div class="h-px h-red" style="left:40px; top:140px;"></div>
+          <div class="h-px h-red" style="left:50px; top:140px;"></div>
+          <div class="h-px" style="left:25px; top:150px;"></div>
+          <div class="h-px" style="left:35px; top:150px;"></div>
+          <div class="h-px" style="left:45px; top:150px;"></div>
+        </div>
+      </div>
+
+      <div class="h-scan"></div>
+    </div>
+  </section>
+
+  <footer id="siteFooter">
     © IRL ROBOTICS 2026
   </footer>
 
@@ -389,6 +616,9 @@
     const formBox = document.getElementById("formBox");
     const requestModal = document.getElementById("requestModal");
     const requestFormBox = document.getElementById("requestFormBox");
+    const handsWidget = document.getElementById("handsWidget");
+    const contactAnchor = document.getElementById("contactAnchor");
+    const siteFooter = document.getElementById("siteFooter");
 
     function openModal() {
       modal.classList.add("active");
@@ -501,6 +731,21 @@
       document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
     }
 
+    function positionHands() {
+      if (!handsWidget || !contactAnchor || !siteFooter) return;
+
+      const contactRect = contactAnchor.getBoundingClientRect();
+      const footerRect = siteFooter.getBoundingClientRect();
+      const widgetRect = handsWidget.getBoundingClientRect();
+
+      const spaceTop = contactRect.bottom;
+      const spaceBottom = footerRect.top;
+      const midpoint = (spaceTop + spaceBottom) / 2;
+      const top = midpoint - (widgetRect.height / 2);
+
+      handsWidget.style.top = Math.max(spaceTop, top) + "px";
+    }
+
     document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
     document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
 
@@ -508,6 +753,16 @@
       if (e.target === modal) closeModal();
       if (e.target === requestModal) closeRequestModal();
     });
+
+    window.addEventListener("load", positionHands);
+    window.addEventListener("resize", positionHands);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(positionHands);
+    }
+
+    setTimeout(positionHands, 50);
+    setTimeout(positionHands, 200);
   </script>
 </body>
 </html>
