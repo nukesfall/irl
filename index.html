@@ -8,15 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #000000;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.7);
-      --border: rgba(255,255,255,.12);
-      --modal-bg: #0b0d10;
-      --input-bg: #111;
-      --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      --bg: #1f272c;
+      --text: #dbf5f6;
+      --muted: rgba(219,245,246,.72);
+      --surface: #8cabad;
+      --surface-dark: #7ea1a4;
+      --border: rgba(219,245,246,.14);
       --site-padding: 24px;
-      --topbar-height: 72px;
       --menu-size: 48px;
       --tight-gap: 14px;
     }
@@ -26,6 +24,7 @@
     html, body {
       min-height: 100%;
       margin: 0;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -33,17 +32,7 @@
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
-      position: relative;
       text-align: left;
-    }
-
-    #particles-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      pointer-events: none;
     }
 
     .page {
@@ -64,10 +53,24 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: flex-start;
+      height: var(--menu-size);
     }
 
     .logo img {
       height: var(--menu-size);
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .menu-wrap {
+      position: relative;
     }
 
     .menu-button {
@@ -75,11 +78,18 @@
       height: var(--menu-size);
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: #111;
+      background: var(--surface);
+      color: var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    .menu-button:hover {
+      transform: translateY(-1px);
+      opacity: .96;
     }
 
     .hamburger {
@@ -92,35 +102,48 @@
 
     .hamburger span {
       height: 2px;
-      background: #fff;
+      background: var(--bg);
+      border-radius: 999px;
+      display: block;
     }
 
     .menu-panel {
       position: absolute;
-      right: 24px;
-      top: 80px;
+      top: calc(100% + 10px);
+      right: 0;
       background: #000;
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 8px;
+      min-width: 180px;
       opacity: 0;
+      transform: translateY(-4px);
       pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 20;
     }
 
     .menu-panel.active {
       opacity: 1;
+      transform: translateY(0);
       pointer-events: auto;
     }
 
     .menu-item {
       display: block;
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       background: none;
       border: none;
-      color: white;
+      color: var(--text);
       text-align: left;
+      border-radius: 10px;
       cursor: pointer;
+      font: inherit;
+    }
+
+    .menu-item:hover {
+      background: rgba(255,255,255,.06);
     }
 
     .hero {
@@ -128,36 +151,53 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      min-height: calc(100vh - var(--topbar-height) - 80px);
+      min-height: calc(100vh - 120px);
       padding-top: 6vh;
     }
 
     .hero-copy {
-      max-width: 600px;
+      max-width: 640px;
     }
 
     h1 {
       font-size: clamp(34px, 6vw, 64px);
+      line-height: 1.03;
       margin-bottom: 10px;
+      background: linear-gradient(to bottom, #dbf5f6 0%, #c9e9ea 42%, #a8cfd1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
     }
 
     .sub {
-      margin-bottom: var(--tight-gap);
       color: var(--muted);
+      margin-bottom: var(--tight-gap);
+      font-size: clamp(18px, 2.3vw, 22px);
     }
 
     .cta-row {
       display: flex;
       gap: var(--tight-gap);
+      flex-wrap: nowrap;
     }
 
     .btn {
       padding: 14px 28px;
       border-radius: 12px;
-      background: #111;
-      border: 1px solid var(--border);
-      color: white;
+      background: var(--surface);
+      border: none;
+      color: var(--bg);
       cursor: pointer;
+      font: inherit;
+      font-weight: 500;
+      transition: transform .18s ease, opacity .18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: .96;
     }
 
     footer {
@@ -165,20 +205,29 @@
       padding: 16px var(--site-padding);
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-size: 12px;
       color: var(--muted);
+      gap: 16px;
+    }
+
+    .footer-contact {
+      cursor: pointer;
+      text-align: right;
     }
 
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.9);
+      background: rgba(0,0,0,.84);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity .2s ease;
+      z-index: 40;
+      padding: 20px;
     }
 
     .modal.active {
@@ -187,258 +236,330 @@
     }
 
     .modal-box {
-      background: var(--modal-bg);
-      padding: 30px;
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      color: var(--bg);
       border-radius: 14px;
-      width: 90%;
-      max-width: 400px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-box h2 {
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .modal-box p {
+      line-height: 1.5;
+    }
+
+    .close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
     }
 
     .input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-bottom: 10px;
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      color: white;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    .input::placeholder {
+      color: rgba(31,39,44,.65);
+    }
+
+    textarea.input {
+      min-height: 110px;
+      resize: vertical;
     }
 
     .submit {
       width: 100%;
       padding: 12px;
-      background: white;
-      color: black;
+      background: var(--bg);
+      color: var(--text);
       border: none;
+      border-radius: 10px;
       cursor: pointer;
-    }
-
-    .close {
-      float: right;
-      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
     }
 
     .success {
       text-align: center;
-      color: #10b981;
+      padding: 12px 0 4px;
+      color: var(--bg);
     }
 
     .error {
-      color: #ef4444;
-      margin-top: 12px;
+      margin-top: 8px;
+      color: #5a1111;
       font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --site-padding: 18px;
+        --menu-size: 44px;
+        --tight-gap: 10px;
+      }
+
+      .topbar {
+        padding-top: 18px;
+      }
+
+      .hero {
+        min-height: calc(100vh - 104px);
+        padding-top: 4vh;
+      }
+
+      h1 {
+        font-size: clamp(30px, 10vw, 42px);
+      }
+
+      .cta-row {
+        gap: var(--tight-gap);
+      }
+
+      .btn {
+        padding: 12px 18px;
+        font-size: 14px;
+        border-radius: 12px;
+      }
+
+      footer {
+        padding: 16px var(--site-padding);
+      }
     }
   </style>
 </head>
 <body>
+  <div class="page">
+    <div class="site-shell">
+      <div class="topbar">
+        <div class="logo">
+          <img src="logo.png" alt="IRL Robotics" />
+        </div>
 
-<canvas id="particles-canvas"></canvas>
+        <div class="menu-wrap">
+          <button class="menu-button" type="button" onclick="toggleMenu()" aria-label="Open menu">
+            <div class="hamburger">
+              <span></span><span></span><span></span>
+            </div>
+          </button>
 
-<div class="page">
-  <div class="site-shell">
-
-    <div class="topbar">
-      <div class="logo">
-        <img src="logo.png">
-      </div>
-
-      <div>
-        <div class="menu-button" onclick="toggleMenu()">
-          <div class="hamburger">
-            <span></span><span></span><span></span>
+          <div class="menu-panel" id="menuPanel">
+            <button class="menu-item" onclick="openAbout()">About</button>
+            <button class="menu-item" onclick="openContact()">Contact</button>
           </div>
         </div>
+      </div>
 
-        <div class="menu-panel" id="menuPanel">
-          <button class="menu-item" onclick="openAbout()">About</button>
-          <button class="menu-item" onclick="openContact()">Contact</button>
+      <div class="hero">
+        <div class="hero-copy">
+          <h1>Train Robots.<br>Get Paid.</h1>
+          <div class="sub">In-Real-life.</div>
+
+          <div class="cta-row">
+            <button class="btn" onclick="openModal()">Apply for IRL</button>
+            <button class="btn" onclick="openRequestModal()">Request Data</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="hero">
-      <div class="hero-copy">
-        <h1>Train Robots.<br>Get Paid.</h1>
-        <div class="sub">In-Real-life.</div>
+    <footer>
+      <div>© <span id="y"></span> IRL™ Robotics</div>
+      <div class="footer-contact" onclick="openContact()">Contact</div>
+    </footer>
+  </div>
 
-        <div class="cta-row">
-          <button class="btn" onclick="openModal()">Apply for IRL</button>
-          <button class="btn" onclick="openRequestModal()">Request Data</button>
-        </div>
-      </div>
+  <div class="modal" id="modal">
+    <div class="modal-box" id="formBox">
+      <div class="close" onclick="closeModal()">×</div>
+      <h2>Join the IRL Waitlist</h2>
+      <form id="waitlistForm">
+        <input class="input" name="first" placeholder="First Name" required />
+        <input class="input" name="last" placeholder="Last Name" required />
+        <input class="input" name="email" type="email" placeholder="Email" required />
+        <button type="submit" class="submit">Apply</button>
+      </form>
     </div>
-
   </div>
 
-  <footer>
-    <div>© <span id="y"></span> IRL™ Robotics</div>
-    <div onclick="openContact()" style="cursor:pointer;">Contact</div>
-  </footer>
-</div>
-
-<!-- MODALS -->
-<div class="modal" id="modal">
-  <div class="modal-box" id="formBox">
-    <div class="close" onclick="closeModal()">×</div>
-    <form id="waitlistForm">
-      <input class="input" name="first" placeholder="First Name">
-      <input class="input" name="last" placeholder="Last Name">
-      <input class="input" name="email" placeholder="Email">
-      <button class="submit">Apply</button>
-    </form>
+  <div class="modal" id="requestModal">
+    <div class="modal-box" id="requestFormBox">
+      <div class="close" onclick="closeRequestModal()">×</div>
+      <h2>Request Data</h2>
+      <form id="requestDataForm">
+        <input class="input" name="name" placeholder="Name" required />
+        <input class="input" name="company" placeholder="Company" required />
+        <input class="input" name="email" type="email" placeholder="Email" required />
+        <textarea class="input" name="message" placeholder="Message" required></textarea>
+        <button type="submit" class="submit">Submit</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="requestModal">
-  <div class="modal-box" id="requestFormBox">
-    <div class="close" onclick="closeRequestModal()">×</div>
-    <form id="requestDataForm">
-      <input class="input" name="name" placeholder="Name">
-      <input class="input" name="company" placeholder="Company">
-      <input class="input" name="email" placeholder="Email">
-      <textarea class="input" name="message"></textarea>
-      <button class="submit">Submit</button>
-    </form>
+  <div class="modal" id="contactModal">
+    <div class="modal-box">
+      <div class="close" onclick="closeContact()">×</div>
+      <h2>Contact</h2>
+      <p>contact@irl.bot</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="contactModal">
-  <div class="modal-box">
-    <div class="close" onclick="closeContact()">×</div>
-    contact@irl.bot
+  <div class="modal" id="aboutModal">
+    <div class="modal-box">
+      <div class="close" onclick="closeAbout()">×</div>
+      <h2>About</h2>
+      <p>IRL is busy collecting Human data for Humanoid Robots in-real-life. If you want to learn more about IRL, please fill out the Apply form.</p>
+    </div>
   </div>
-</div>
 
-<div class="modal" id="aboutModal">
-  <div class="modal-box">
-    <div class="close" onclick="closeAbout()">×</div>
-    IRL is busy collecting Human data for Humanoid Robots in-real-life.
-  </div>
-</div>
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
+    const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
 
-<script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
-const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
+    const modal = document.getElementById("modal");
+    const formBox = document.getElementById("formBox");
+    const requestModal = document.getElementById("requestModal");
+    const requestFormBox = document.getElementById("requestFormBox");
+    const contactModal = document.getElementById("contactModal");
+    const aboutModal = document.getElementById("aboutModal");
+    const menuPanel = document.getElementById("menuPanel");
 
-const modal = document.getElementById("modal");
-const formBox = document.getElementById("formBox");
-const requestModal = document.getElementById("requestModal");
-const requestFormBox = document.getElementById("requestFormBox");
-const contactModal = document.getElementById("contactModal");
-const aboutModal = document.getElementById("aboutModal");
+    function toggleMenu() {
+      menuPanel.classList.toggle("active");
+    }
 
-function toggleMenu() {
-  document.getElementById("menuPanel").classList.toggle("active");
-}
+    function openModal() { modal.classList.add("active"); }
+    function closeModal() { modal.classList.remove("active"); }
+    function openRequestModal() { requestModal.classList.add("active"); }
+    function closeRequestModal() { requestModal.classList.remove("active"); }
+    function openContact() { contactModal.classList.add("active"); }
+    function closeContact() { contactModal.classList.remove("active"); }
+    function openAbout() { aboutModal.classList.add("active"); }
+    function closeAbout() { aboutModal.classList.remove("active"); }
 
-function openModal(){ modal.classList.add("active"); }
-function closeModal(){ modal.classList.remove("active"); }
-function openRequestModal(){ requestModal.classList.add("active"); }
-function closeRequestModal(){ requestModal.classList.remove("active"); }
-function openContact(){ contactModal.classList.add("active"); }
-function closeContact(){ contactModal.classList.remove("active"); }
-function openAbout(){ aboutModal.classList.add("active"); }
-function closeAbout(){ aboutModal.classList.remove("active"); }
-
-function resetApplyForm() {
-  formBox.innerHTML = `
-    <div class="close" onclick="closeModal()">×</div>
-    <form id="waitlistForm">
-      <input class="input" name="first" placeholder="First Name">
-      <input class="input" name="last" placeholder="Last Name">
-      <input class="input" name="email" placeholder="Email">
-      <button class="submit">Apply</button>
-    </form>
-  `;
-  document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
-}
-
-function resetRequestForm() {
-  requestFormBox.innerHTML = `
-    <div class="close" onclick="closeRequestModal()">×</div>
-    <form id="requestDataForm">
-      <input class="input" name="name" placeholder="Name">
-      <input class="input" name="company" placeholder="Company">
-      <input class="input" name="email" placeholder="Email">
-      <textarea class="input" name="message"></textarea>
-      <button class="submit">Submit</button>
-    </form>
-  `;
-  document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
-}
-
-async function handleApplySubmit(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-
-  try {
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    });
-
-    const text = await response.text();
-    console.log("Apply submission status:", response.status);
-    console.log("Apply response body:", text);
-
-    if (response.ok) {
+    function resetApplyForm() {
       formBox.innerHTML = `
-        <div class="success">
-          <h3>Application Submitted.</h3>
-        </div>
+        <div class="close" onclick="closeModal()">×</div>
+        <h2>Join the IRL Waitlist</h2>
+        <form id="waitlistForm">
+          <input class="input" name="first" placeholder="First Name" required />
+          <input class="input" name="last" placeholder="Last Name" required />
+          <input class="input" name="email" type="email" placeholder="Email" required />
+          <button type="submit" class="submit">Apply</button>
+        </form>
       `;
-
-      setTimeout(() => {
-        closeModal();
-        resetApplyForm();
-      }, 1200);
-    } else {
-      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+      document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
     }
-  } catch (err) {
-    console.error("Apply submission error:", err);
-    formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
-  }
-}
 
-async function handleRequestSubmit(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
+    function resetRequestForm() {
+      requestFormBox.innerHTML = `
+        <div class="close" onclick="closeRequestModal()">×</div>
+        <h2>Request Data</h2>
+        <form id="requestDataForm">
+          <input class="input" name="name" placeholder="Name" required />
+          <input class="input" name="company" placeholder="Company" required />
+          <input class="input" name="email" type="email" placeholder="Email" required />
+          <textarea class="input" name="message" placeholder="Message" required></textarea>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      `;
+      document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
+    }
 
-  try {
-    const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
-      method: "POST",
-      body: formData
+    async function handleApplySubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await response.text();
+
+        if (response.ok) {
+          formBox.innerHTML = `
+            <div class="success">
+              <h3>Application Submitted.</h3>
+            </div>
+          `;
+
+          setTimeout(() => {
+            closeModal();
+            resetApplyForm();
+          }, 1200);
+        } else {
+          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+        }
+      } catch (err) {
+        formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
+      }
+    }
+
+    async function handleRequestSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await response.text();
+
+        if (response.ok) {
+          requestFormBox.innerHTML = `
+            <div class="success">
+              <h3>Message Submitted.</h3>
+            </div>
+          `;
+
+          setTimeout(() => {
+            closeRequestModal();
+            resetRequestForm();
+          }, 1200);
+        } else {
+          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+        }
+      } catch (err) {
+        requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
+      }
+    }
+
+    const waitlistForm = document.getElementById("waitlistForm");
+    if (waitlistForm) waitlistForm.addEventListener("submit", handleApplySubmit);
+
+    const requestDataForm = document.getElementById("requestDataForm");
+    if (requestDataForm) requestDataForm.addEventListener("submit", handleRequestSubmit);
+
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".menu-wrap")) {
+        menuPanel.classList.remove("active");
+      }
+      if (e.target === modal) closeModal();
+      if (e.target === requestModal) closeRequestModal();
+      if (e.target === contactModal) closeContact();
+      if (e.target === aboutModal) closeAbout();
     });
 
-    const text = await response.text();
-    console.log("Request submission status:", response.status);
-    console.log("Request response body:", text);
-
-    if (response.ok) {
-      requestFormBox.innerHTML = `
-        <div class="success">
-          <h3>Message Submitted.</h3>
-        </div>
-      `;
-
-      setTimeout(() => {
-        closeRequestModal();
-        resetRequestForm();
-      }, 1200);
-    } else {
-      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
-    }
-  } catch (err) {
-    console.error("Request submission error:", err);
-    requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
-  }
-}
-
-document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
-document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
-
-document.getElementById("y").textContent = new Date().getFullYear();
-</script>
-
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
