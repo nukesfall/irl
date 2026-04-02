@@ -15,8 +15,11 @@
       --separator-glow: rgba(59, 130, 246, 0.15);
       --modal-bg: #0b0d10;
       --input-bg: #111;
+      --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
+
     * { margin:0; padding:0; box-sizing:border-box; }
+
     html, body {
       height: 100%;
       min-height: 100vh;
@@ -24,6 +27,7 @@
       -webkit-text-size-adjust: 100%;
       overscroll-behavior-y: auto;
     }
+
     body {
       font-family: Inter, system-ui, sans-serif;
       background: var(--bg);
@@ -36,6 +40,7 @@
       justify-content: center;
       text-align: center;
     }
+
     #particles-canvas {
       position: fixed;
       inset: 0;
@@ -46,21 +51,29 @@
       overscroll-behavior: none;
       touch-action: none;
     }
+
     .container {
       padding: 24px;
-      max-width: 700px;
+      max-width: 520px;
       width: 100%;
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
     }
+
+    .logo {
+      width: 100%;
+    }
+
     .logo img {
-      width: clamp(180px, 40vw, 280px);
+      width: 100%;
+      max-width: 260px;
       display: block;
-      margin-bottom: clamp(24px, 5vw, 40px);
+      margin: 0 auto clamp(24px, 5vw, 40px) auto;
     }
+
     .separator {
       width: 120px;
       height: 1px;
@@ -69,6 +82,7 @@
       margin: clamp(12px, 3vw, 20px) auto;
       border: none;
     }
+
     h1 {
       font-size: clamp(28px, 5vw, 48px);
       font-weight: 600;
@@ -80,17 +94,30 @@
       color: transparent;
       margin-bottom: 12px;
     }
+
     .sub {
       font-size: 18px;
       color: var(--muted);
       margin-bottom: 32px;
     }
+
     .cta {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: 12px;
     }
+
+    .cta-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
+
     .btn {
       padding: 16px 32px;
       border-radius: 14px;
@@ -101,17 +128,15 @@
       border: 1px solid var(--border);
       cursor: pointer;
       transition: .2s ease;
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
+
     .btn:hover {
       transform: translateY(-2px);
       border-color: rgba(255,255,255,.35);
     }
-    .limited-access {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 400;
-      letter-spacing: 0.3px;
-    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -124,11 +149,14 @@
       transition: .25s ease;
       z-index: 10;
     }
+
     .modal.active {
       opacity: 1;
       pointer-events: auto;
     }
+
     .modal-box {
+      position: relative;
       background: var(--modal-bg);
       padding: 30px;
       border-radius: 16px;
@@ -138,10 +166,12 @@
       border: 1px solid var(--border);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6);
     }
+
     .modal-box h2 {
       margin-bottom: 16px;
       font-size: 20px;
     }
+
     .input {
       width: 100%;
       padding: 12px;
@@ -152,12 +182,20 @@
       color: var(--text);
       font-size: 16px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
     }
+
     .input:focus {
       outline: none;
       border-color: rgba(59, 130, 246, 0.6);
       box-shadow: var(--focus-glow);
     }
+
+    textarea.input {
+      resize: vertical;
+      min-height: 120px;
+    }
+
     .submit {
       width: 100%;
       padding: 14px;
@@ -168,25 +206,35 @@
       font-weight: 600;
       cursor: pointer;
       transition: .2s ease;
+      font-family: inherit;
     }
+
+    .submit:hover {
+      opacity: 0.92;
+    }
+
     .close {
       position: absolute;
       top: 20px;
       right: 24px;
       font-size: 20px;
       cursor: pointer;
+      line-height: 1;
     }
+
     .success {
       text-align: center;
       font-size: 16px;
       line-height: 1.4;
       color: #10b981;
     }
+
     .error {
       color: #ef4444;
       margin-top: 12px;
       font-size: 14px;
     }
+
     footer {
       position: absolute;
       bottom: 16px;
@@ -195,6 +243,45 @@
       color: var(--muted);
       z-index: 1;
     }
+
+    .footer-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .footer-left {
+      text-align: left;
+    }
+
+    .footer-right {
+      text-align: right;
+    }
+
+    .contact-link {
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .contact-link:hover {
+      opacity: 0.7;
+    }
+
+    @media (max-width: 640px) {
+      .cta-row {
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 18px;
+        font-size: 14px;
+        border-radius: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -202,16 +289,19 @@
 
   <div class="container">
     <div class="logo">
-      <img src="logo.png" alt="IRL Robotics">
+      <img src="https://irlrobotics.github.io/landing/logo.png" alt="IRL Robotics">
     </div>
 
     <hr class="separator">
 
     <h1>Train Robots.<br>Get Paid.</h1>
     <p class="sub">In-Real-life.</p>
+
     <div class="cta">
-      <button class="btn" onclick="openModal()">Apply for IRL</button>
-      <div class="limited-access">Limited early access</div>
+      <div class="cta-row">
+        <button class="btn" onclick="openModal()">Apply for IRL</button>
+        <button class="btn" onclick="openRequestModal()">Request Data</button>
+      </div>
     </div>
   </div>
 
@@ -229,8 +319,37 @@
     </div>
   </div>
 
+  <div class="modal" id="requestModal">
+    <div class="modal-box" id="requestFormBox">
+      <div class="close" onclick="closeRequestModal()">×</div>
+      <h2>Request Data</h2>
+      <form id="requestDataForm" method="POST">
+        <input class="input" name="name" placeholder="Name" required>
+        <input class="input" name="company" placeholder="Company Name" required>
+        <input class="input" name="email" type="email" placeholder="Email Address" required>
+        <textarea class="input" name="message" placeholder="What data do you need?" required></textarea>
+        <button type="submit" class="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="contactModal">
+    <div class="modal-box">
+      <div class="close" onclick="closeContact()">×</div>
+      <h2>Contact</h2>
+      <p style="margin-top:10px;">contact@irl.bot</p>
+    </div>
+  </div>
+
   <footer>
-    © <span id="y"></span> IRL™ Robotics
+    <div class="footer-inner">
+      <div class="footer-left">
+        © <span id="y"></span> IRL™ Robotics
+      </div>
+      <div class="footer-right">
+        <span class="contact-link" onclick="openContact()">Contact</span>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -256,12 +375,14 @@
         this.speedY = Math.random() * 0.2 - 0.1;
         this.opacity = Math.random() * 0.25 + 0.1;
       }
+
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
         if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
         if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
+
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -294,17 +415,50 @@
     const form = document.getElementById("waitlistForm");
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
 
-    function openModal() { modal.classList.add("active"); }
-    function closeModal() { modal.classList.remove("active"); }
+    const requestModal = document.getElementById("requestModal");
+    const requestFormBox = document.getElementById("requestFormBox");
+    const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
+
+    const contactModal = document.getElementById("contactModal");
+
+    function openModal() {
+      modal.classList.add("active");
+    }
+
+    function closeModal() {
+      modal.classList.remove("active");
+    }
+
+    function openRequestModal() {
+      requestModal.classList.add("active");
+    }
+
+    function closeRequestModal() {
+      requestModal.classList.remove("active");
+    }
+
+    function openContact() {
+      contactModal.classList.add("active");
+    }
+
+    function closeContact() {
+      contactModal.classList.remove("active");
+    }
 
     form.addEventListener("submit", async function(e) {
       e.preventDefault();
       const formData = new FormData(form);
+
       try {
-        const response = await fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData });
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
         const text = await response.text();
         console.log("Submission status:", response.status);
         console.log("Response body:", text);
+
         if (response.ok) {
           formBox.innerHTML = `
             <div class="success">
@@ -318,6 +472,65 @@
         console.error("Submission error:", err);
         formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
       }
+    });
+
+    function resetRequestFormModal() {
+      requestFormBox.innerHTML = `
+        <div class="close" onclick="closeRequestModal()">×</div>
+        <h2>Request Data</h2>
+        <form id="requestDataForm" method="POST">
+          <input class="input" name="name" placeholder="Name" required>
+          <input class="input" name="company" placeholder="Company Name" required>
+          <input class="input" name="email" type="email" placeholder="Email Address" required>
+          <textarea class="input" name="message" placeholder="What data do you need?" required></textarea>
+          <button type="submit" class="submit">Submit</button>
+        </form>
+      `;
+
+      const rebuiltRequestForm = document.getElementById("requestDataForm");
+      rebuiltRequestForm.addEventListener("submit", handleRequestSubmit);
+    }
+
+    async function handleRequestSubmit(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      try {
+        const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await response.text();
+        console.log("Request submission status:", response.status);
+        console.log("Request response body:", text);
+
+        if (response.ok) {
+          requestFormBox.innerHTML = `
+            <div class="success">
+              <h2>Message Submitted.</h2>
+            </div>
+          `;
+
+          setTimeout(() => {
+            closeRequestModal();
+            resetRequestFormModal();
+          }, 1200);
+        } else {
+          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+        }
+      } catch (err) {
+        console.error("Request submission error:", err);
+        requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
+      }
+    }
+
+    document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
+
+    window.addEventListener("click", function(e) {
+      if (e.target === modal) closeModal();
+      if (e.target === requestModal) closeRequestModal();
+      if (e.target === contactModal) closeContact();
     });
 
     document.getElementById("y").textContent = new Date().getFullYear();
