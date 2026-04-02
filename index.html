@@ -178,6 +178,7 @@
       justify-content: center;
       opacity: 0;
       pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
     .modal.active {
@@ -214,6 +215,17 @@
     .close {
       float: right;
       cursor: pointer;
+    }
+
+    .success {
+      text-align: center;
+      color: #10b981;
+    }
+
+    .error {
+      color: #ef4444;
+      margin-top: 12px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -304,20 +316,128 @@
 </div>
 
 <script>
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
+const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
+
+const modal = document.getElementById("modal");
+const formBox = document.getElementById("formBox");
+const requestModal = document.getElementById("requestModal");
+const requestFormBox = document.getElementById("requestFormBox");
+const contactModal = document.getElementById("contactModal");
+const aboutModal = document.getElementById("aboutModal");
+
 function toggleMenu() {
   document.getElementById("menuPanel").classList.toggle("active");
 }
 
-function openModal(){modal.classList.add("active")}
-function closeModal(){modal.classList.remove("active")}
-function openRequestModal(){requestModal.classList.add("active")}
-function closeRequestModal(){requestModal.classList.remove("active")}
-function openContact(){contactModal.classList.add("active")}
-function closeContact(){contactModal.classList.remove("active")}
-function openAbout(){aboutModal.classList.add("active")}
-function closeAbout(){aboutModal.classList.remove("active")}
+function openModal(){ modal.classList.add("active"); }
+function closeModal(){ modal.classList.remove("active"); }
+function openRequestModal(){ requestModal.classList.add("active"); }
+function closeRequestModal(){ requestModal.classList.remove("active"); }
+function openContact(){ contactModal.classList.add("active"); }
+function closeContact(){ contactModal.classList.remove("active"); }
+function openAbout(){ aboutModal.classList.add("active"); }
+function closeAbout(){ aboutModal.classList.remove("active"); }
 
-document.getElementById("y").textContent=new Date().getFullYear();
+function resetApplyForm() {
+  formBox.innerHTML = `
+    <div class="close" onclick="closeModal()">×</div>
+    <form id="waitlistForm">
+      <input class="input" name="first" placeholder="First Name">
+      <input class="input" name="last" placeholder="Last Name">
+      <input class="input" name="email" placeholder="Email">
+      <button class="submit">Apply</button>
+    </form>
+  `;
+  document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
+}
+
+function resetRequestForm() {
+  requestFormBox.innerHTML = `
+    <div class="close" onclick="closeRequestModal()">×</div>
+    <form id="requestDataForm">
+      <input class="input" name="name" placeholder="Name">
+      <input class="input" name="company" placeholder="Company">
+      <input class="input" name="email" placeholder="Email">
+      <textarea class="input" name="message"></textarea>
+      <button class="submit">Submit</button>
+    </form>
+  `;
+  document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
+}
+
+async function handleApplySubmit(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await response.text();
+    console.log("Apply submission status:", response.status);
+    console.log("Apply response body:", text);
+
+    if (response.ok) {
+      formBox.innerHTML = `
+        <div class="success">
+          <h3>Application Submitted.</h3>
+        </div>
+      `;
+
+      setTimeout(() => {
+        closeModal();
+        resetApplyForm();
+      }, 1200);
+    } else {
+      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+    }
+  } catch (err) {
+    console.error("Apply submission error:", err);
+    formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
+  }
+}
+
+async function handleRequestSubmit(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  try {
+    const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await response.text();
+    console.log("Request submission status:", response.status);
+    console.log("Request response body:", text);
+
+    if (response.ok) {
+      requestFormBox.innerHTML = `
+        <div class="success">
+          <h3>Message Submitted.</h3>
+        </div>
+      `;
+
+      setTimeout(() => {
+        closeRequestModal();
+        resetRequestForm();
+      }, 1200);
+    } else {
+      throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
+    }
+  } catch (err) {
+    console.error("Request submission error:", err);
+    requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again.</p>`;
+  }
+}
+
+document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
+document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
+
+document.getElementById("y").textContent = new Date().getFullYear();
 </script>
 
 </body>
