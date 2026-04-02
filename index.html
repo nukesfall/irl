@@ -12,33 +12,29 @@
       --text: #ffffff;
       --muted: rgba(255,255,255,.7);
       --border: rgba(255,255,255,.12);
-      --separator-glow: rgba(59, 130, 246, 0.15);
       --modal-bg: #0b0d10;
       --input-bg: #111;
       --focus-glow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      --site-padding: 24px;
+      --topbar-height: 72px;
+      --menu-size: 48px;
+      --tight-gap: 14px;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-      height: 100%;
-      min-height: 100vh;
+      min-height: 100%;
       margin: 0;
-      -webkit-text-size-adjust: 100%;
-      overscroll-behavior-y: auto;
     }
 
     body {
       font-family: Inter, system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      overflow-y: auto;
       overflow-x: hidden;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      text-align: left;
     }
 
     #particles-canvas {
@@ -48,106 +44,140 @@
       height: 100vh;
       z-index: -1;
       pointer-events: none;
-      overscroll-behavior: none;
-      touch-action: none;
     }
 
-    .container {
-      padding: 24px;
-      max-width: 520px;
-      width: 100%;
-      position: relative;
-      z-index: 1;
+    .page {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
     }
 
-    .logo {
-      width: 100%;
+    .site-shell {
+      padding: 0 var(--site-padding);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
     .logo img {
-      width: 100%;
-      max-width: 260px;
-      display: block;
-      margin: 0 auto clamp(24px, 5vw, 40px) auto;
+      height: var(--menu-size);
     }
 
-    .separator {
-      width: 120px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-      box-shadow: 0 0 12px var(--separator-glow);
-      margin: clamp(12px, 3vw, 20px) auto;
+    .menu-button {
+      width: var(--menu-size);
+      height: var(--menu-size);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .hamburger {
+      width: 18px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hamburger span {
+      height: 2px;
+      background: #fff;
+    }
+
+    .menu-panel {
+      position: absolute;
+      right: 24px;
+      top: 80px;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .menu-panel.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: none;
       border: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: calc(100vh - var(--topbar-height) - 80px);
+      padding-top: 6vh;
+    }
+
+    .hero-copy {
+      max-width: 600px;
     }
 
     h1 {
-      font-size: clamp(28px, 5vw, 48px);
-      font-weight: 600;
-      line-height: 1.1;
-      background: linear-gradient(to bottom, #ffffff 0%, #cccccc 40%, #999999 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 12px;
+      font-size: clamp(34px, 6vw, 64px);
+      margin-bottom: 10px;
     }
 
     .sub {
-      font-size: 18px;
+      margin-bottom: var(--tight-gap);
       color: var(--muted);
-      margin-bottom: 32px;
-    }
-
-    .cta {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
     }
 
     .cta-row {
-      width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: nowrap;
+      gap: var(--tight-gap);
     }
 
     .btn {
-      padding: 16px 32px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: 12px;
       background: #111;
-      color: #fff;
       border: 1px solid var(--border);
+      color: white;
       cursor: pointer;
-      transition: .2s ease;
-      white-space: nowrap;
-      flex: 0 0 auto;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,.35);
+    footer {
+      margin-top: auto;
+      padding: 16px var(--site-padding);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
     }
 
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,.9);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: .25s ease;
-      z-index: 10;
     }
 
     .modal.active {
@@ -156,384 +186,139 @@
     }
 
     .modal-box {
-      position: relative;
       background: var(--modal-bg);
       padding: 30px;
-      border-radius: 16px;
+      border-radius: 14px;
       width: 90%;
-      max-width: 420px;
-      text-align: left;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    }
-
-    .modal-box h2 {
-      margin-bottom: 16px;
-      font-size: 20px;
+      max-width: 400px;
     }
 
     .input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
+      padding: 10px;
+      margin-bottom: 10px;
       background: var(--input-bg);
-      color: var(--text);
-      font-size: 16px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      font-family: inherit;
-    }
-
-    .input:focus {
-      outline: none;
-      border-color: rgba(59, 130, 246, 0.6);
-      box-shadow: var(--focus-glow);
-    }
-
-    textarea.input {
-      resize: vertical;
-      min-height: 120px;
+      border: 1px solid var(--border);
+      color: white;
     }
 
     .submit {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
+      background: white;
+      color: black;
       border: none;
-      border-radius: 12px;
-      background: var(--text);
-      color: var(--bg);
-      font-weight: 600;
       cursor: pointer;
-      transition: .2s ease;
-      font-family: inherit;
-    }
-
-    .submit:hover {
-      opacity: 0.92;
     }
 
     .close {
-      position: absolute;
-      top: 20px;
-      right: 24px;
-      font-size: 20px;
+      float: right;
       cursor: pointer;
-      line-height: 1;
-    }
-
-    .success {
-      text-align: center;
-      font-size: 16px;
-      line-height: 1.4;
-      color: #10b981;
-    }
-
-    .error {
-      color: #ef4444;
-      margin-top: 12px;
-      font-size: 14px;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 16px;
-      width: 100%;
-      font-size: 12px;
-      color: var(--muted);
-      z-index: 1;
-    }
-
-    .footer-inner {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-
-    .footer-left {
-      text-align: left;
-    }
-
-    .footer-right {
-      text-align: right;
-    }
-
-    .contact-link {
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-    }
-
-    .contact-link:hover {
-      opacity: 0.7;
-    }
-
-    @media (max-width: 640px) {
-      .cta-row {
-        gap: 10px;
-      }
-
-      .btn {
-        padding: 12px 18px;
-        font-size: 14px;
-        border-radius: 12px;
-      }
     }
   </style>
 </head>
 <body>
-  <canvas id="particles-canvas"></canvas>
 
-  <div class="container">
-    <div class="logo">
-      <img src="logo.png" alt="IRL Robotics">
-    </div>
+<canvas id="particles-canvas"></canvas>
 
-    <hr class="separator">
+<div class="page">
+  <div class="site-shell">
 
-    <h1>Train Robots.<br>Get Paid.</h1>
-    <p class="sub">In-Real-life.</p>
+    <div class="topbar">
+      <div class="logo">
+        <img src="logo.png">
+      </div>
 
-    <div class="cta">
-      <div class="cta-row">
-        <button class="btn" onclick="openModal()">Apply for IRL</button>
-        <button class="btn" onclick="openRequestModal()">Request Data</button>
+      <div>
+        <div class="menu-button" onclick="toggleMenu()">
+          <div class="hamburger">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="menu-panel" id="menuPanel">
+          <button class="menu-item" onclick="openAbout()">About</button>
+          <button class="menu-item" onclick="openContact()">Contact</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal" id="modal">
-    <div class="modal-box" id="formBox">
-      <div class="close" onclick="closeModal()">×</div>
-      <h2>Join the IRL Waitlist</h2>
-      <form id="waitlistForm" method="POST">
-        <input class="input" name="first" placeholder="First Name" required>
-        <input class="input" name="last" placeholder="Last Name" required>
-        <input class="input" name="email" type="email" placeholder="Email Address" required>
-        <input class="input" name="ref" placeholder="How did you hear about IRL?">
-        <button type="submit" class="submit">Apply</button>
-      </form>
-    </div>
-  </div>
+    <div class="hero">
+      <div class="hero-copy">
+        <h1>Train Robots.<br>Get Paid.</h1>
+        <div class="sub">In-Real-life.</div>
 
-  <div class="modal" id="requestModal">
-    <div class="modal-box" id="requestFormBox">
-      <div class="close" onclick="closeRequestModal()">×</div>
-      <h2>Request Data</h2>
-      <form id="requestDataForm" method="POST">
-        <input class="input" name="name" placeholder="Name" required>
-        <input class="input" name="company" placeholder="Company Name" required>
-        <input class="input" name="email" type="email" placeholder="Email Address" required>
-        <textarea class="input" name="message" placeholder="What data do you need?" required></textarea>
-        <button type="submit" class="submit">Submit</button>
-      </form>
+        <div class="cta-row">
+          <button class="btn" onclick="openModal()">Apply for IRL</button>
+          <button class="btn" onclick="openRequestModal()">Request Data</button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="modal" id="contactModal">
-    <div class="modal-box">
-      <div class="close" onclick="closeContact()">×</div>
-      <h2>Contact</h2>
-      <p style="margin-top:10px;">contact@irl.bot</p>
-    </div>
   </div>
 
   <footer>
-    <div class="footer-inner">
-      <div class="footer-left">
-        © <span id="y"></span> IRL™ Robotics
-      </div>
-      <div class="footer-right">
-        <span class="contact-link" onclick="openContact()">Contact</span>
-      </div>
-    </div>
+    <div>© <span id="y"></span> IRL™ Robotics</div>
+    <div onclick="openContact()" style="cursor:pointer;">Contact</div>
   </footer>
+</div>
 
-  <script>
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let particles = [];
-    const particleCount = 40;
+<!-- MODALS -->
+<div class="modal" id="modal">
+  <div class="modal-box" id="formBox">
+    <div class="close" onclick="closeModal()">×</div>
+    <form id="waitlistForm">
+      <input class="input" name="first" placeholder="First Name">
+      <input class="input" name="last" placeholder="Last Name">
+      <input class="input" name="email" placeholder="Email">
+      <button class="submit">Apply</button>
+    </form>
+  </div>
+</div>
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
-    });
+<div class="modal" id="requestModal">
+  <div class="modal-box" id="requestFormBox">
+    <div class="close" onclick="closeRequestModal()">×</div>
+    <form id="requestDataForm">
+      <input class="input" name="name" placeholder="Name">
+      <input class="input" name="company" placeholder="Company">
+      <input class="input" name="email" placeholder="Email">
+      <textarea class="input" name="message"></textarea>
+      <button class="submit">Submit</button>
+    </form>
+  </div>
+</div>
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1 + 0.5;
-        this.speedX = Math.random() * 0.2 - 0.1;
-        this.speedY = Math.random() * 0.2 - 0.1;
-        this.opacity = Math.random() * 0.25 + 0.1;
-      }
+<div class="modal" id="contactModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeContact()">×</div>
+    contact@irl.bot
+  </div>
+</div>
 
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
+<div class="modal" id="aboutModal">
+  <div class="modal-box">
+    <div class="close" onclick="closeAbout()">×</div>
+    IRL is busy collecting Human data for Humanoid Robots in-real-life.
+  </div>
+</div>
 
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240, 245, 255, ${this.opacity})`;
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = 'rgba(200, 220, 255, 0.25)';
-        ctx.fill();
-      }
-    }
+<script>
+function toggleMenu() {
+  document.getElementById("menuPanel").classList.toggle("active");
+}
 
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-    }
+function openModal(){modal.classList.add("active")}
+function closeModal(){modal.classList.remove("active")}
+function openRequestModal(){requestModal.classList.add("active")}
+function closeRequestModal(){requestModal.classList.remove("active")}
+function openContact(){contactModal.classList.add("active")}
+function closeContact(){contactModal.classList.remove("active")}
+function openAbout(){aboutModal.classList.add("active")}
+function closeAbout(){aboutModal.classList.remove("active")}
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animate);
-    }
+document.getElementById("y").textContent=new Date().getFullYear();
+</script>
 
-    initParticles();
-    animate();
-
-    const modal = document.getElementById("modal");
-    const formBox = document.getElementById("formBox");
-    const form = document.getElementById("waitlistForm");
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
-
-    const requestModal = document.getElementById("requestModal");
-    const requestFormBox = document.getElementById("requestFormBox");
-    const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
-
-    const contactModal = document.getElementById("contactModal");
-
-    function openModal() {
-      modal.classList.add("active");
-    }
-
-    function closeModal() {
-      modal.classList.remove("active");
-    }
-
-    function openRequestModal() {
-      requestModal.classList.add("active");
-    }
-
-    function closeRequestModal() {
-      requestModal.classList.remove("active");
-    }
-
-    function openContact() {
-      contactModal.classList.add("active");
-    }
-
-    function closeContact() {
-      contactModal.classList.remove("active");
-    }
-
-    form.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-          method: "POST",
-          body: formData
-        });
-
-        const text = await response.text();
-        console.log("Submission status:", response.status);
-        console.log("Response body:", text);
-
-        if (response.ok) {
-          formBox.innerHTML = `
-            <div class="success">
-              <h2>Application Submitted.</h2>
-            </div>
-          `;
-        } else {
-          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
-        }
-      } catch (err) {
-        console.error("Submission error:", err);
-        formBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
-      }
-    });
-
-    function resetRequestFormModal() {
-      requestFormBox.innerHTML = `
-        <div class="close" onclick="closeRequestModal()">×</div>
-        <h2>Request Data</h2>
-        <form id="requestDataForm" method="POST">
-          <input class="input" name="name" placeholder="Name" required>
-          <input class="input" name="company" placeholder="Company Name" required>
-          <input class="input" name="email" type="email" placeholder="Email Address" required>
-          <textarea class="input" name="message" placeholder="What data do you need?" required></textarea>
-          <button type="submit" class="submit">Submit</button>
-        </form>
-      `;
-
-      const rebuiltRequestForm = document.getElementById("requestDataForm");
-      rebuiltRequestForm.addEventListener("submit", handleRequestSubmit);
-    }
-
-    async function handleRequestSubmit(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-
-      try {
-        const response = await fetch(REQUEST_DATA_SCRIPT_URL, {
-          method: "POST",
-          body: formData
-        });
-
-        const text = await response.text();
-        console.log("Request submission status:", response.status);
-        console.log("Request response body:", text);
-
-        if (response.ok) {
-          requestFormBox.innerHTML = `
-            <div class="success">
-              <h2>Message Submitted.</h2>
-            </div>
-          `;
-
-          setTimeout(() => {
-            closeRequestModal();
-            resetRequestFormModal();
-          }, 1200);
-        } else {
-          throw new Error(`Status ${response.status}: ${text.substring(0, 200)}...`);
-        }
-      } catch (err) {
-        console.error("Request submission error:", err);
-        requestFormBox.innerHTML += `<p class="error">Something went wrong (${err.message}) — try again or email hey@irl.bot directly.</p>`;
-      }
-    }
-
-    document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
-
-    window.addEventListener("click", function(e) {
-      if (e.target === modal) closeModal();
-      if (e.target === requestModal) closeRequestModal();
-      if (e.target === contactModal) closeContact();
-    });
-
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
