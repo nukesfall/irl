@@ -365,6 +365,37 @@
       transform: translateY(-3px);
     }
 
+    .loading-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid #000000;
+      margin: 0 0 10px 0;
+      overflow: hidden;
+      display: none;
+    }
+
+    .loading-bar.active {
+      display: block;
+    }
+
+    .loading-bar-fill {
+      width: 35%;
+      height: 100%;
+      background: #fc1052;
+      animation: loading-slide 1.1s linear infinite;
+      transform: translateX(-100%);
+    }
+
+    @keyframes loading-slide {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(320%);
+      }
+    }
+
     .success {
       text-align: center;
       padding: 12px 0 4px;
@@ -505,6 +536,7 @@
       <button class="close" type="button" onclick="closeModal()">×</button>
       <h2>APPLY FOR BETA</h2>
       <form id="waitlistForm">
+        <div class="loading-bar" id="applyLoadingBar"><div class="loading-bar-fill"></div></div>
         <input class="input" name="first" placeholder="FIRST NAME" required />
         <input class="input" name="last" placeholder="LAST NAME" required />
         <input class="input" name="email" type="email" placeholder="EMAIL" required />
@@ -518,6 +550,7 @@
       <button class="close" type="button" onclick="closeRequestModal()">×</button>
       <h2>REQUEST DATA</h2>
       <form id="requestDataForm">
+        <div class="loading-bar" id="requestLoadingBar"><div class="loading-bar-fill"></div></div>
         <input class="input" name="name" placeholder="NAME" required />
         <input class="input" name="company" placeholder="COMPANY" required />
         <input class="input" name="email" type="email" placeholder="EMAIL" required />
@@ -555,9 +588,20 @@
       requestModal.classList.remove("active");
     }
 
+    function setLoadingBar(id, active) {
+      const bar = document.getElementById(id);
+      if (!bar) return;
+      if (active) {
+        bar.classList.add("active");
+      } else {
+        bar.classList.remove("active");
+      }
+    }
+
     function handleApplySubmit(e) {
       e.preventDefault();
       const formData = new FormData(e.target);
+      setLoadingBar("applyLoadingBar", true);
 
       fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
@@ -580,10 +624,12 @@
               resetApplyForm();
             }, 1200);
           } else {
+            setLoadingBar("applyLoadingBar", false);
             formBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
           }
         })
         .catch(function() {
+          setLoadingBar("applyLoadingBar", false);
           formBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
         });
     }
@@ -591,6 +637,7 @@
     function handleRequestSubmit(e) {
       e.preventDefault();
       const formData = new FormData(e.target);
+      setLoadingBar("requestLoadingBar", true);
 
       fetch(REQUEST_DATA_SCRIPT_URL, {
         method: "POST",
@@ -613,10 +660,12 @@
               resetRequestForm();
             }, 1200);
           } else {
+            setLoadingBar("requestLoadingBar", false);
             requestFormBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
           }
         })
         .catch(function() {
+          setLoadingBar("requestLoadingBar", false);
           requestFormBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
         });
     }
@@ -626,6 +675,7 @@
         <button class="close" type="button" onclick="closeModal()">×</button>
         <h2>JOIN THE IRL WAITLIST</h2>
         <form id="waitlistForm">
+          <div class="loading-bar" id="applyLoadingBar"><div class="loading-bar-fill"></div></div>
           <input class="input" name="first" placeholder="FIRST NAME" required />
           <input class="input" name="last" placeholder="LAST NAME" required />
           <input class="input" name="email" type="email" placeholder="EMAIL" required />
@@ -640,6 +690,7 @@
         <button class="close" type="button" onclick="closeRequestModal()">×</button>
         <h2>REQUEST DATA</h2>
         <form id="requestDataForm">
+          <div class="loading-bar" id="requestLoadingBar"><div class="loading-bar-fill"></div></div>
           <input class="input" name="name" placeholder="NAME" required />
           <input class="input" name="company" placeholder="COMPANY" required />
           <input class="input" name="email" type="email" placeholder="EMAIL" required />
