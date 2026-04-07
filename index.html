@@ -235,18 +235,6 @@
     .h-blue { background: var(--h-blue); }
     .h-red { background: var(--h-red); }
 
-    .h-scan {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: min(190px, 50vw);
-      height: 2px;
-      background: #000000;
-      opacity: 0.08;
-      transform: translate(-50%, -50%);
-      animation: h-scan 3s linear infinite;
-      pointer-events: none;
-    }
 
     @keyframes h-breathe {
       0%   { transform: translateY(0px) scaleX(var(--h-flip, 1)); }
@@ -254,10 +242,6 @@
       100% { transform: translateY(0px) scaleX(var(--h-flip, 1)); }
     }
 
-    @keyframes h-scan {
-      0%   { transform: translate(-50%, -50%) translateY(-26px); }
-      100% { transform: translate(-50%, -50%) translateY(26px); }
-    }
 
     footer {
       padding: 24px 20px 28px;
@@ -452,14 +436,7 @@
         min-height: 64px;
       }
 
-      .h-scan {
-        width: min(190px, 60vw);
-      }
 
-      @keyframes h-scan {
-        0%   { transform: translate(-50%, -50%) translateY(-20px); }
-        100% { transform: translate(-50%, -50%) translateY(20px); }
-      }
     }
   </style>
 </head>
@@ -519,7 +496,7 @@
         </div>
       </div>
 
-      <div class="h-scan"></div>
+     
     </div>
   </section>
 
