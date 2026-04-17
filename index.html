@@ -5,27 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IRL ROBOTICS</title>
   <meta name="description" content="IRL Robotics landing page" />
+
   <style>
-    @font-face {
-      font-family: "W95FA";
-      src: url("https://cdn.jsdelivr.net/gh/nukesfall/irl@main/W95FA.otf") format("opentype");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
     :root {
-      --bg: #e6e6e6;
-      --text: #000000;
-      --subtext: #4f4f4f;
-      --button-bg: #000000;
-      --button-text: #e6e6e6;
-      --hero-size: clamp(2.6rem, 6vw, 5.4rem);
+      --bg: #ffffff;
       --h-ink: #000000;
       --h-pixel: 6px;
       --h-blue: #1694e7;
       --h-red: #fc1052;
       --h-gap: 150px;
     }
+
     * {
       box-sizing: border-box;
       box-shadow: none !important;
@@ -33,119 +23,35 @@
       background-image: none !important;
       filter: none !important;
     }
+
     html, body {
       margin: 0;
-      padding: 0;
       width: 100%;
-      min-height: 100%;
+      height: 100%;
       background: var(--bg);
-      color: var(--text);
-      font-family: "W95FA", monospace !important;
-      font-weight: 400;
+      overflow: hidden;
     }
-    body, h1, p, a, div, button, footer, span, input, textarea, form, h2, h3 {
-      font-family: "W95FA", monospace !important;
-    }
+
     body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .page {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px 20px;
     }
-    .hero {
-      width: 100%;
-      max-width: 760px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .brand {
-      display: inline-flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 8px;
-      line-height: 1;
-    }
-    h1 {
-      margin: 0;
-      font-size: var(--hero-size);
-      line-height: 1;
-      color: var(--text);
-      /* Static - no animation */
-    }
-    p {
-      margin: 18px 0 0;
-      width: fit-content;
-      max-width: 100%;
-      font-size: clamp(0.7rem, 1.8vw, 1rem);
-      line-height: 1.5;
-      color: var(--subtext);
-      white-space: nowrap;
-    }
-    .buttons {
-      margin-top: 28px;
-      display: inline-flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: fit-content;
-      max-width: 100%;
-    }
-    .button {
-      appearance: none;
-      border: none;
-      outline: none;
-      border-radius: 0;
-      background: var(--button-bg);
-      color: var(--button-text);
-      font-size: 0.95rem;
-      line-height: 1;
-      padding: 14px 22px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 120ms linear;
-    }
-    .button:hover, .button:focus-visible {
-      transform: translateY(-3px);
-    }
-    .contact {
-      margin-top: 18px;
-      font-size: 0.75rem;
-      line-height: 1.4;
-      color: var(--subtext);
-    }
-    .contact a {
-      color: inherit;
-      text-decoration: none;
-    }
-    .contact a:hover, .contact a:focus-visible {
-      text-decoration: underline;
-    }
+
     .h-widget {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      transform: translateX(-50%);
       width: min(320px, 74vw);
       height: min(120px, 30vw);
       min-width: 200px;
       min-height: 84px;
       pointer-events: none;
-      z-index: 5;
-      opacity: 1;
     }
-    .h-widget-inner { position: relative; width: 100%; height: 100%; }
+
+    .h-widget-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
     .h-hands {
       position: absolute;
       inset: 0;
@@ -153,163 +59,47 @@
       align-items: center;
       justify-content: center;
       gap: var(--h-gap);
+      transform: translateY(-20px);
     }
+
     .h-hand {
       position: relative;
       width: calc(var(--h-pixel) * 10);
       height: calc(var(--h-pixel) * 16);
-      animation: h-breathe 1.4s ease-in-out infinite; /* FASTER */
+      animation: h-breathe 1.4s ease-in-out infinite;
       flex: 0 0 auto;
     }
-    .h-hand.right { transform: scaleX(-1); }
-    .h-hand.left { --h-flip: 1; }
-    .h-hand.right { --h-flip: -1; }
+
+    .h-hand.left {
+      --h-flip: 1;
+    }
+
+    .h-hand.right {
+      --h-flip: -1;
+      transform: scaleX(-1);
+    }
+
     .h-px {
       position: absolute;
       width: var(--h-pixel);
       height: var(--h-pixel);
       background: var(--h-ink);
     }
+
     .h-blue { background: var(--h-blue); }
     .h-red { background: var(--h-red); }
+
     @keyframes h-breathe {
       0%, 100% { transform: translateY(0px) scaleX(var(--h-flip, 1)); }
-      50%      { transform: translateY(-14px) scaleX(var(--h-flip, 1)); } /* pronounced */
+      50% { transform: translateY(-14px) scaleX(var(--h-flip, 1)); }
     }
-    footer {
-      padding: 24px 20px 28px;
-      text-align: center;
-      font-size: 0.9rem;
-      line-height: 1.4;
-      color: var(--subtext);
-      margin-top: 0;
-      position: relative;
-      z-index: 1;
-    }
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.84);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 120ms linear;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .modal.active { opacity: 1; pointer-events: auto; }
-    .modal-box {
-      width: 100%;
-      max-width: 420px;
-      background: #000000;
-      color: var(--bg);
-      border: 1px solid #000000;
-      border-radius: 0;
-      padding: 24px;
-      position: relative;
-      text-align: left;
-    }
-    .modal-box h2 {
-      margin: 0 0 16px 0;
-      font-size: 1rem;
-      line-height: 1.3;
-      text-transform: uppercase;
-      color: var(--bg);
-    }
-    .close {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 1;
-      color: var(--bg);
-      background: none;
-      border: none;
-      padding: 0;
-    }
-    .input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      background: var(--bg);
-      color: #000000;
-      border: 1px solid #000000;
-      border-radius: 0;
-      outline: none;
-      font-size: 16px;
-      text-transform: uppercase;
-    }
-    .input::placeholder {
-      color: #4f4f4f;
-      opacity: 1;
-      text-transform: uppercase;
-    }
-    textarea.input { min-height: 110px; resize: vertical; }
-    .submit {
-      width: 100%;
-      padding: 12px;
-      background: var(--bg);
-      color: #000000;
-      border: 1px solid #000000;
-      border-radius: 0;
-      cursor: pointer;
-      font-size: 0.85rem;
-      line-height: 1;
-      text-transform: uppercase;
-      transition: transform 120ms linear;
-    }
-    .submit:hover, .submit:focus-visible {
-      transform: translateY(-3px);
-    }
-    .loading-bar {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid #000000;
-      margin: 0 0 10px 0;
-      overflow: hidden;
-      display: none;
-    }
-    .loading-bar.active { display: block; }
-    .loading-bar-fill {
-      width: 35%;
-      height: 100%;
-      background: #fc1052;
-      animation: loading-slide 1.1s linear infinite;
-      transform: translateX(-100%);
-    }
-    @keyframes loading-slide {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(320%); }
-    }
-    .success {
-      text-align: center;
-      padding: 12px 0 4px;
-      color: var(--bg);
-      text-transform: uppercase;
-    }
-    .success h3 {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-    .error {
-      margin-top: 8px;
-      color: var(--bg);
-      font-size: 0.75rem;
-      line-height: 1.4;
-      text-transform: uppercase;
-    }
+
     @media (max-width: 560px) {
-      .brand { gap: 6px; }
-      .buttons { gap: 10px; }
-      .button { padding: 12px 18px; font-size: 0.9rem; }
-      p { margin-top: 16px; font-size: clamp(0.62rem, 2.9vw, 0.9rem); }
-      .modal-box { padding: 20px; }
-      :root { --h-pixel: 4px; --h-gap: 150px; }
+      :root {
+        --h-pixel: 4px;
+        --h-gap: 90px;
+      }
+
       .h-widget {
         width: min(320px, 100vw);
         height: min(92px, 28vw);
@@ -320,26 +110,11 @@
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="hero">
-      <div class="brand">
-        <h1 id="irlText">IRL</h1>
-      </div>
-      <p>Human Data, Made for Humanoids</p>
-      <div class="buttons">
-        <button class="button" type="button" onclick="openRequestModal()">REQUEST DATA</button>
-        <button class="button" type="button" onclick="openModal()">EARN MONEY</button>
-      </div>
-      <div class="contact" id="contactAnchor">
-        <a href="mailto:contact@irl.bot"></a>
-      </div>
-    </section>
-  </main>
-
-  <section class="h-widget" id="handsWidget" aria-hidden="true">
+  <section class="h-widget" aria-hidden="true">
     <div class="h-widget-inner">
       <div class="h-hands">
-        <!-- Left Hand -->
+
+        <!-- LEFT HAND -->
         <div class="h-hand left">
           <div class="h-px" style="left:10px; top:60px;"></div><div class="h-px" style="left:10px; top:70px;"></div><div class="h-px" style="left:10px; top:80px;"></div>
           <div class="h-px" style="left:25px; top:50px;"></div><div class="h-px" style="left:25px; top:60px;"></div><div class="h-px" style="left:25px; top:70px;"></div><div class="h-px" style="left:25px; top:80px;"></div>
@@ -354,7 +129,8 @@
           <div class="h-px h-blue" style="left:20px; top:140px;"></div><div class="h-px h-blue" style="left:30px; top:140px;"></div><div class="h-px h-blue" style="left:40px; top:140px;"></div><div class="h-px h-blue" style="left:50px; top:140px;"></div>
           <div class="h-px" style="left:25px; top:150px;"></div><div class="h-px" style="left:35px; top:150px;"></div><div class="h-px" style="left:45px; top:150px;"></div>
         </div>
-        <!-- Right Hand -->
+
+        <!-- RIGHT HAND -->
         <div class="h-hand right">
           <div class="h-px" style="left:10px; top:60px;"></div><div class="h-px" style="left:10px; top:70px;"></div><div class="h-px" style="left:10px; top:80px;"></div>
           <div class="h-px" style="left:25px; top:50px;"></div><div class="h-px" style="left:25px; top:60px;"></div><div class="h-px" style="left:25px; top:70px;"></div><div class="h-px" style="left:25px; top:80px;"></div>
@@ -369,171 +145,9 @@
           <div class="h-px h-red" style="left:20px; top:140px;"></div><div class="h-px h-red" style="left:30px; top:140px;"></div><div class="h-px h-red" style="left:40px; top:140px;"></div><div class="h-px h-red" style="left:50px; top:140px;"></div>
           <div class="h-px" style="left:25px; top:150px;"></div><div class="h-px" style="left:35px; top:150px;"></div><div class="h-px" style="left:45px; top:150px;"></div>
         </div>
+
       </div>
     </div>
   </section>
-
-  <footer id="siteFooter">
-    © IRL ROBOTICS 2026
-  </footer>
-
-  <!-- Modals -->
-  <div class="modal" id="modal">
-    <div class="modal-box" id="formBox">
-      <button class="close" type="button" onclick="closeModal()">×</button>
-      <h2>APPLY FOR BETA</h2>
-      <form id="waitlistForm">
-        <div class="loading-bar" id="applyLoadingBar"><div class="loading-bar-fill"></div></div>
-        <input class="input" name="first" placeholder="FIRST NAME" required />
-        <input class="input" name="last" placeholder="LAST NAME" required />
-        <input class="input" name="email" type="email" placeholder="EMAIL" required />
-        <button type="submit" class="submit">APPLY</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal" id="requestModal">
-    <div class="modal-box" id="requestFormBox">
-      <button class="close" type="button" onclick="closeRequestModal()">×</button>
-      <h2>REQUEST DATA</h2>
-      <form id="requestDataForm">
-        <div class="loading-bar" id="requestLoadingBar"><div class="loading-bar-fill"></div></div>
-        <input class="input" name="name" placeholder="NAME" required />
-        <input class="input" name="company" placeholder="COMPANY" required />
-        <input class="input" name="email" type="email" placeholder="EMAIL" required />
-        <textarea class="input" name="message" placeholder="MESSAGE" required></textarea>
-        <button type="submit" class="submit">SUBMIT</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // === Original script (unchanged) ===
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZLSaASNHj946UdOr-AY_1S1r-QkulDFFKgN4ulh0OmhNP78QYrwCzqVa-XEd1lSHvTA/exec";
-    const REQUEST_DATA_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHMRjyP4eW9i_g4ff3wEo84d1KWLHEasGgFC3cVHHJoaBep90r_wJQroXOnd_xnpQR/exec";
-
-    const modal = document.getElementById("modal");
-    const formBox = document.getElementById("formBox");
-    const requestModal = document.getElementById("requestModal");
-    const requestFormBox = document.getElementById("requestFormBox");
-    const handsWidget = document.getElementById("handsWidget");
-    const contactAnchor = document.getElementById("contactAnchor");
-    const siteFooter = document.getElementById("siteFooter");
-
-    function openModal() { modal.classList.add("active"); }
-    function closeModal() { modal.classList.remove("active"); }
-    function openRequestModal() { requestModal.classList.add("active"); }
-    function closeRequestModal() { requestModal.classList.remove("active"); }
-
-    function setLoadingBar(id, active) {
-      const bar = document.getElementById(id);
-      if (!bar) return;
-      active ? bar.classList.add("active") : bar.classList.remove("active");
-    }
-
-    function handleApplySubmit(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      setLoadingBar("applyLoadingBar", true);
-      fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: formData })
-        .then(r => r.text().then(text => ({ok: r.ok, text})))
-        .then(result => {
-          if (result.ok) {
-            formBox.innerHTML = `<div class="success"><h3>APPLICATION SUBMITTED.</h3></div>`;
-            setTimeout(() => { closeModal(); resetApplyForm(); }, 1200);
-          } else {
-            setLoadingBar("applyLoadingBar", false);
-            formBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
-          }
-        })
-        .catch(() => {
-          setLoadingBar("applyLoadingBar", false);
-          formBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
-        });
-    }
-
-    function handleRequestSubmit(e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      setLoadingBar("requestLoadingBar", true);
-      fetch(REQUEST_DATA_SCRIPT_URL, { method: "POST", body: formData })
-        .then(r => r.text().then(text => ({ok: r.ok, text})))
-        .then(result => {
-          if (result.ok) {
-            requestFormBox.innerHTML = `<div class="success"><h3>MESSAGE SUBMITTED.</h3></div>`;
-            setTimeout(() => { closeRequestModal(); resetRequestForm(); }, 1200);
-          } else {
-            setLoadingBar("requestLoadingBar", false);
-            requestFormBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
-          }
-        })
-        .catch(() => {
-          setLoadingBar("requestLoadingBar", false);
-          requestFormBox.innerHTML += `<p class="error">SOMETHING WENT WRONG — TRY AGAIN.</p>`;
-        });
-    }
-
-    function resetApplyForm() {
-      formBox.innerHTML = `
-        <button class="close" type="button" onclick="closeModal()">×</button>
-        <h2>JOIN THE IRL WAITLIST</h2>
-        <form id="waitlistForm">
-          <div class="loading-bar" id="applyLoadingBar"><div class="loading-bar-fill"></div></div>
-          <input class="input" name="first" placeholder="FIRST NAME" required />
-          <input class="input" name="last" placeholder="LAST NAME" required />
-          <input class="input" name="email" type="email" placeholder="EMAIL" required />
-          <button type="submit" class="submit">APPLY</button>
-        </form>
-      `;
-      document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
-    }
-
-    function resetRequestForm() {
-      requestFormBox.innerHTML = `
-        <button class="close" type="button" onclick="closeRequestModal()">×</button>
-        <h2>REQUEST DATA</h2>
-        <form id="requestDataForm">
-          <div class="loading-bar" id="requestLoadingBar"><div class="loading-bar-fill"></div></div>
-          <input class="input" name="name" placeholder="NAME" required />
-          <input class="input" name="company" placeholder="COMPANY" required />
-          <input class="input" name="email" type="email" placeholder="EMAIL" required />
-          <textarea class="input" name="message" placeholder="MESSAGE" required></textarea>
-          <button type="submit" class="submit">SUBMIT</button>
-        </form>
-      `;
-      document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
-    }
-
-    function positionHands() {
-      if (!handsWidget || !contactAnchor || !siteFooter) return;
-      const contactRect = contactAnchor.getBoundingClientRect();
-      const footerRect = siteFooter.getBoundingClientRect();
-      const widgetHeight = handsWidget.offsetHeight;
-      const spaceTop = contactRect.bottom + window.scrollY;
-      const spaceBottom = footerRect.top + window.scrollY;
-      const midpoint = (spaceTop + spaceBottom) / 2;
-      const top = midpoint - (widgetHeight / 2);
-      handsWidget.style.top = Math.max(spaceTop, top) + "px";
-    }
-
-    document.getElementById("waitlistForm").addEventListener("submit", handleApplySubmit);
-    document.getElementById("requestDataForm").addEventListener("submit", handleRequestSubmit);
-
-    document.addEventListener("click", function(e) {
-      if (e.target === modal) closeModal();
-      if (e.target === requestModal) closeRequestModal();
-    });
-
-    window.addEventListener("load", positionHands);
-    window.addEventListener("resize", positionHands);
-    window.addEventListener("scroll", positionHands, { passive: true });
-
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(positionHands);
-    }
-
-    setTimeout(positionHands, 50);
-    setTimeout(positionHands, 200);
-  </script>
 </body>
 </html>
