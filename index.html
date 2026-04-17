@@ -95,18 +95,26 @@
     }
 
     @media (max-width: 560px) {
-      :root {
-        --h-pixel: 4px;
-        --h-gap: 90px;
-      }
+  :root {
+    --h-pixel: 3px;   /* smaller hands */
+    --h-gap: 60px;    /* controlled spacing */
+  }
 
-      .h-widget {
-        width: min(320px, 100vw);
-        height: min(92px, 28vw);
-        min-width: 220px;
-        min-height: 64px;
-      }
-    }
+  .h-widget {
+    width: 100vw;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .h-hand {
+    transform: scale(0.85); /* extra shrink to prevent overlap */
+  }
+
+  .h-hand.right {
+    transform: scaleX(-1) scale(0.85);
+  }
+}
   </style>
 </head>
 <body>
